@@ -668,24 +668,29 @@ body {
 }
 
 .consensus-stats {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   margin-bottom: 8px;
   font-size: 0.85rem;
   font-weight: 600;
+  width: 100%;
+  gap: 10px;
 }
 
 .consensus-percentage {
   color: var(--text-secondary);
+  text-align: center;
 }
 
 .consensus-agree-label {
   color: var(--agree-color);
+  text-align: left;
 }
 
 .consensus-disagree-label {
   color: var(--disagree-color);
+  text-align: right;
 }
 
 .consensus-track {
