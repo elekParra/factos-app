@@ -1250,6 +1250,8 @@ body {
 .bottom-nav-item {
   background: none;
   border: none;
+  padding: 0 !important;
+  margin: 0 !important;
   color: var(--text-muted);
   display: flex;
   flex-direction: column;
@@ -1406,12 +1408,22 @@ body {
 }
 
 @media (max-width: 500px) {
+  .bottom-nav {
+    height: 56px;
+  }
+
   .bottom-nav-item span {
     display: none;
   }
   
   .bottom-nav-item i {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
+  }
+
+  .btn-post-bottom {
+    width: 44px;
+    height: 44px;
+    transform: translateY(-6px);
   }
 }
 
@@ -1424,5 +1436,61 @@ body {
 }
 .text-secondary {
   color: var(--secondary) !important;
+}
+
+/* Trend Sync Card */
+.trend-sync-card {
+  padding: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  border: 1px solid var(--border-focus);
+  background: hsla(250, 89%, 65%, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.trend-sync-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trend-sync-icon {
+  color: var(--glow-cyan);
+  animation: pulseBolt 1.8s infinite ease-in-out;
+}
+
+.trend-sync-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+  max-width: 500px;
+}
+
+.btn-sync-trends {
+  width: auto !important;
+  padding: 10px 24px !important;
+  font-size: 0.85rem !important;
+}
+
+@keyframes pulseBolt {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px var(--primary));
+  }
+  50% {
+    transform: scale(1.25);
+    filter: drop-shadow(0 0 10px var(--primary-hover));
+  }
 }
 

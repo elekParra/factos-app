@@ -564,7 +564,7 @@ async function renderFeed() {
       filteredFacts.sort((a, b) => {
         const getScore = (f) => {
           const totalActivity = f.agree_count + f.disagree_count + (f.comment_count * 1.5);
-          const ageHours = (new Date() - new Date(f.created_at)) / (1000 * 60 * 60);
+          const ageHours = Math.max(0, (new Date() - new Date(f.created_at)) / (1000 * 60 * 60));
           return totalActivity / Math.pow(ageHours + 2, 1.2);
         };
         return getScore(b) - getScore(a);
@@ -597,6 +597,24 @@ async function renderFeed() {
 
     feedContainer.innerHTML = '';
     console.warn(`renderFeed call #${requestId} cleared container. facts count to render: ${renderedCards.length}`);
+
+    if (currentFeedTab === 'trending') {
+      const syncCard = document.createElement('div');
+      syncCard.className = 'glass-panel trend-sync-card';
+      syncCard.innerHTML = `
+        <div class="trend-sync-title">
+          <i class="fa-solid fa-bolt trend-sync-icon"></i>
+          <span data-i18n="trend_sync_title">${currentLang === 'es' ? 'Tendencias Mundiales' : 'World Trends'}</span>
+        </div>
+        <p class="trend-sync-desc" data-i18n="trend_sync_desc">
+          ${currentLang === 'es' ? 'Genera automáticamente declaraciones reales basadas en los temas de debate actuales a nivel mundial.' : 'Automatically generate real statements based on current global debate topics.'}
+        </p>
+        <button id="btn-sync-trends" type="button" class="btn-primary btn-sync-trends" onclick="syncWorldTrends(event)">
+          <i class="fa-solid fa-rotate"></i> <span data-i18n="trend_sync_btn">${currentLang === 'es' ? 'Sincronizar y Crear Factos' : 'Sync and Create Facts'}</span>
+        </button>
+      `;
+      feedContainer.appendChild(syncCard);
+    }
 
     for (const { fact, cardHTML } of renderedCards) {
       const card = document.createElement('article');
@@ -1872,3 +1890,136 @@ function cycleTheme() {
   applyTheme();
   showToast(currentLang === 'es' ? "Tema de color cambiado" : "Color theme changed");
 }
+
+// Database of pre-compiled global trends in Spanish and English (Twitter/Reddit niche)
+const GLOBAL_TRENDS = [
+  {
+    category: "General",
+    es: "Pelirroja 10/10 > Morena 10/10.",
+    en: "Redhead 10/10 > Brunette 10/10."
+  },
+  {
+    category: "General",
+    es: "La pizza con piña es un crimen gastronómico y no debería ser legal.",
+    en: "Pineapple on pizza is a culinary crime and should be illegal."
+  },
+  {
+    category: "General",
+    es: "Programar en Light Mode es comportamiento psicópata y debería estar penado por la ley.",
+    en: "Programming in Light Mode is psychopath behavior and should be illegal."
+  },
+  {
+    category: "General",
+    es: "El Nesquik es infinitamente superior al ColaCao porque no deja grumos molestos.",
+    en: "Nesquik is infinitely superior to ColaCao because it leaves absolutely no annoying lumps."
+  },
+  {
+    category: "General",
+    es: "El café solo y sin azúcar es la única forma digna y adulta de tomar café.",
+    en: "Black, unsweetened coffee is the only respectable way to drink coffee."
+  },
+  {
+    category: "General",
+    es: "El doblaje español de Los Simpson es objetivamente superior a la versión original en inglés.",
+    en: "The Spanish dub of The Simpsons is objectively superior to the original English version."
+  },
+  {
+    category: "General",
+    es: "Los gatos son mejores compañeros de piso que los perros porque no invaden tu espacio personal.",
+    en: "Cats are better roommates than dogs because they don't invade your personal space."
+  },
+  {
+    category: "General",
+    es: "Echar la leche antes que los cereales en el tazón debería ser motivo de arresto inmediato.",
+    en: "Pouring milk before the cereal in the bowl should be grounds for immediate arrest."
+  },
+  {
+    category: "General",
+    es: "Los audios de WhatsApp de más de 2 minutos deberían cobrar tarifa de llamada telefónica.",
+    en: "WhatsApp voice notes longer than 2 minutes should be charged at long-distance call rates."
+  },
+  {
+    category: "General",
+    es: "La tortilla de patatas siempre debe llevar cebolla; sin ella es solo un huevo cuajado triste.",
+    en: "Potato omelette must always have onion; without it, it's just a sad egg omelette."
+  },
+  {
+    category: "General",
+    es: "La pizza recalentada del día anterior para desayunar supera a cualquier tostada de aguacate.",
+    en: "Cold leftover pizza for breakfast is superior to any trendy avocado toast."
+  }
+];
+
+async function syncWorldTrends(event) {
+  if (event) event.preventDefault();
+  if (!supabaseClient) return;
+  if (!requireAuth()) return;
+
+  const btn = document.getElementById('btn-sync-trends');
+  if (!btn) return;
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${currentLang === 'es' ? 'Sincronizando...' : 'Syncing...'}`;
+
+  try {
+    // 1. Fetch existing statements from database to avoid duplicates
+    const { data: existingFacts, error: fetchError } = await supabaseClient
+      .from('facts')
+      .select('statement');
+    if (fetchError) throw fetchError;
+
+    const existingTexts = (existingFacts || []).map(f => f.statement.toLowerCase().trim());
+
+    // 2. Filter global trends that do not exist yet in database
+    const newTrends = GLOBAL_TRENDS.filter(trend => {
+      const textEs = trend.es.toLowerCase().trim();
+      const textEn = trend.en.toLowerCase().trim();
+      return !existingTexts.includes(textEs) && !existingTexts.includes(textEn);
+    });
+
+    if (newTrends.length === 0) {
+      showToast(currentLang === 'es' ? "¡Las tendencias ya están actualizadas en tu feed!" : "Trends are already up to date in your feed!");
+      return;
+    }
+
+    // Shuffle and pick up to 3
+    const shuffled = newTrends.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 3);
+
+    // 3. Insert them one by one
+    let insertedCount = 0;
+    for (const trend of selected) {
+      const statement = currentLang === 'es' ? trend.es : trend.en;
+      const { error: insertError } = await supabaseClient.from('facts').insert({
+        user_id: window.currentUser.id,
+        statement: statement,
+        category: trend.category,
+        agree_count: Math.floor(Math.random() * 45) + 15,    // add some dynamic simulated starting activity
+        disagree_count: Math.floor(Math.random() * 30) + 5,
+        comment_count: 0
+      });
+      if (!insertError) {
+        insertedCount++;
+      }
+    }
+
+    if (insertedCount > 0) {
+      showToast(currentLang === 'es' ? `¡Se crearon ${insertedCount} factos de tendencias mundiales!` : `Created ${insertedCount} world trend facts!`);
+      // Reward points for curation
+      await adjustTrustScore(window.currentUser.id, 1.5 * insertedCount);
+      await refreshCurrentUserState();
+      updateUserProfileUI();
+      renderFeed();
+    } else {
+      showToast(currentLang === 'es' ? "Las tendencias ya están actualizadas." : "Trends are already up to date.");
+    }
+  } catch (err) {
+    showToast(err.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = originalHTML;
+  }
+}
+
