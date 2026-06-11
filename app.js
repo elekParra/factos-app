@@ -547,6 +547,7 @@ async function renderFeed() {
       card.innerHTML = cardHTML;
       feedContainer.appendChild(card);
     }
+    setTimeout(animateConsensusBars, 50);
     console.warn(`renderFeed call #${requestId} completed rendering successfully.`);
   } catch (err) {
     showToast(err.message, true);
@@ -807,12 +808,14 @@ async function handleVote(event, factId, type) {
 
     const agreeLabel = document.getElementById(`agree-label-${factId}`);
     const disagreeLabel = document.getElementById(`disagree-label-${factId}`);
-    const fillBar = document.getElementById(`consensus-fill-${factId}`);
+    const fillBarAgree = document.getElementById(`consensus-fill-agree-${factId}`);
+    const fillBarDisagree = document.getElementById(`consensus-fill-disagree-${factId}`);
     const dict = translations[currentLang];
 
     if (agreeLabel) agreeLabel.textContent = `${agreePercent}% ${dict.agree} (${agreeCount})`;
     if (disagreeLabel) disagreeLabel.textContent = `${disagreePercent}% ${dict.disagree} (${disagreeCount})`;
-    if (fillBar) fillBar.style.width = `${agreePercent}%`;
+    if (fillBarAgree) fillBarAgree.style.width = `${agreePercent}%`;
+    if (fillBarDisagree) fillBarDisagree.style.width = `${disagreePercent}%`;
 
     wrapper.setAttribute('data-agree', agreeCount);
     wrapper.setAttribute('data-disagree', disagreeCount);
@@ -1208,7 +1211,8 @@ async function buildFactCardHTML(fact, userVote, dict) {
         <span id="disagree-label-${fact.id}" class="consensus-disagree-label">${disagreePercent}% ${dict.disagree} (${fact.disagree_count})</span>
       </div>
       <div class="consensus-track">
-        <div id="consensus-fill-${fact.id}" class="consensus-agree-fill" style="width: ${agreePercent}%"></div>
+        <div id="consensus-fill-agree-${fact.id}" class="consensus-agree-fill" style="width: 0%" data-target-width="${agreePercent}"></div>
+        <div id="consensus-fill-disagree-${fact.id}" class="consensus-disagree-fill" style="width: 0%" data-target-width="${disagreePercent}"></div>
       </div>
       
       <div class="consensus-actions">
@@ -1381,6 +1385,7 @@ async function renderMyProfileSubTabFeed() {
       card.innerHTML = cardHTML;
       container.appendChild(card);
     }
+    setTimeout(animateConsensusBars, 50);
   } catch (err) {
     container.innerHTML = `<p style="color: var(--disagree-color); text-align: center; padding: 20px;">${err.message}</p>`;
   }
@@ -1775,3 +1780,18 @@ const handleSearch = debounce((value) => {
   searchQuery = value.trim().toLowerCase();
   renderFeed();
 }, 200);
+
+function animateConsensusBars() {
+  document.querySelectorAll('.consensus-agree-fill').forEach(bar => {
+    const targetWidth = bar.getAttribute('data-target-width');
+    if (targetWidth !== null) {
+      bar.style.width = targetWidth + '%';
+    }
+  });
+  document.querySelectorAll('.consensus-disagree-fill').forEach(bar => {
+    const targetWidth = bar.getAttribute('data-target-width');
+    if (targetWidth !== null) {
+      bar.style.width = targetWidth + '%';
+    }
+  });
+}
