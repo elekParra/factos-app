@@ -30,7 +30,7 @@ const translations = {
     label_category: "Categoría",
     btn_cancel: "Cancelar",
     btn_publish: "Publicar",
-    
+
     // Toasts
     toast_welcome: "¡Bienvenido de nuevo, {name}!",
     toast_created: "¡Cuenta creada con éxito!",
@@ -43,7 +43,7 @@ const translations = {
     toast_err_statement: "La declaración es demasiado corta. Sé más descriptivo.",
     toast_err_fields: "Por favor, completa todos los campos requeridos.",
     toast_err_auth: "Email o contraseña incorrectos.",
-    
+
     // Feed UI Elements
     evidence_citation: "Evidencia de Citación",
     agree: "De Acuerdo",
@@ -53,7 +53,7 @@ const translations = {
     comment_btn: "Publicar",
     no_comments: "No hay comentarios aún. Escribe un argumento constructivo.",
     empty_feed: "No se han subido factos todavía. ¡Sé el primero en publicar una declaración verificada!",
-    
+
     // Categories
     cat_general: "General",
     cat_science: "Ciencia y Tecnología",
@@ -80,7 +80,7 @@ const translations = {
     btn_view_all: "Ver todo el feed",
     follow: "Seguir",
     following: "Siguiendo",
-    nav_interactions: "Interacciones"
+    nav_interactions: "Notificaciones"
   },
   en: {
     brand_subtitle: "Verify the beliefs that shape the world",
@@ -112,7 +112,7 @@ const translations = {
     label_category: "Category",
     btn_cancel: "Cancel",
     btn_publish: "Publish",
-    
+
     // Toasts
     toast_welcome: "Welcome back, {name}!",
     toast_created: "Account created successfully!",
@@ -125,7 +125,7 @@ const translations = {
     toast_err_statement: "Statement is too short. Be more descriptive.",
     toast_err_fields: "Please fill in all required fields.",
     toast_err_auth: "Invalid email or password.",
-    
+
     // Feed UI Elements
     evidence_citation: "Evidence Citation",
     agree: "Agree",
@@ -135,7 +135,7 @@ const translations = {
     comment_btn: "Post",
     no_comments: "No comments yet. Write a constructive argument.",
     empty_feed: "No facts uploaded yet. Be the first to publish a verified statement!",
-    
+
     // Categories
     cat_general: "General",
     cat_science: "Science & Tech",
