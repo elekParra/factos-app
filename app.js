@@ -1,5 +1,28 @@
 // Global application state
 let currentLang = localStorage.getItem('factos_lang') || 'es';
+let currentTheme = localStorage.getItem('factos_theme') || 'purple';
+
+function applyTheme() {
+  document.body.classList.remove('theme-blue', 'theme-sunset');
+  if (currentTheme === 'blue') {
+    document.body.classList.add('theme-blue');
+  } else if (currentTheme === 'sunset') {
+    document.body.classList.add('theme-sunset');
+  }
+}
+applyTheme();
+
+function requireAuth() {
+  if (!window.currentUser) {
+    showToast(currentLang === 'es' ? "Debes iniciar sesión para realizar esta acción" : "You must log in to perform this action", true);
+    setTimeout(() => {
+      switchToAuthView();
+    }, 1500);
+    return false;
+  }
+  return true;
+}
+
 let currentFeedTab = 'recent'; // 'recent' or 'trending'
 let currentAuthMode = 'login'; // 'login' or 'signup'
 let searchQuery = '';
@@ -69,13 +92,16 @@ if (window.factosAppLoaded) {
             sessionStorage.setItem('factos_session', JSON.stringify(profile));
             switchToAppView();
           } else {
-            switchToAuthView();
+            window.currentUser = null;
+            switchToAppView();
           }
         } else {
-          switchToAuthView();
+          window.currentUser = null;
+          switchToAppView();
         }
       } catch (e) {
-        switchToAuthView();
+        window.currentUser = null;
+        switchToAppView();
       }
     }
 
@@ -193,8 +219,12 @@ function applyTranslations() {
   });
 
   // Re-render feed
-  if (window.currentUser) {
+  if (currentFeedTab === 'recent' || currentFeedTab === 'trending') {
     renderFeed();
+  } else if (currentFeedTab === 'profile') {
+    renderMyProfileView();
+  } else if (currentFeedTab === 'interactions') {
+    loadNotifications();
   }
 }
 
@@ -333,7 +363,25 @@ async function logout() {
 
 // Dynamic Profile View Sync
 function updateUserProfileUI() {
-  if (!window.currentUser) return;
+  const logoutBtn = document.querySelector('.btn-icon-logout');
+  if (!window.currentUser) {
+    if (logoutBtn) {
+      logoutBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i>';
+      logoutBtn.title = currentLang === 'es' ? 'Iniciar Sesión' : 'Log In';
+    }
+    const displayNameEl = document.getElementById('user-display-name');
+    const trustMiniEl = document.getElementById('user-trust-mini');
+    const avatarMiniContainer = document.getElementById('user-avatar-mini-container');
+    if (displayNameEl) displayNameEl.textContent = currentLang === 'es' ? 'Invitado' : 'Guest';
+    if (trustMiniEl) trustMiniEl.textContent = '50.00';
+    if (avatarMiniContainer) avatarMiniContainer.innerHTML = '';
+    return;
+  }
+
+  if (logoutBtn) {
+    logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>';
+    logoutBtn.title = currentLang === 'es' ? 'Cerrar Sesión' : 'Log Out';
+  }
 
   const nameElements = [
     document.getElementById('user-display-name'),
@@ -356,6 +404,9 @@ function updateUserProfileUI() {
 
 // Switch Feed categories
 function switchFeedTab(tab) {
+  if (tab === 'profile' || tab === 'interactions') {
+    if (!requireAuth()) return;
+  }
   currentFeedTab = tab;
 
   const recentNav = document.getElementById('nav-recent');
@@ -475,10 +526,16 @@ async function renderFeed() {
     if (error) throw error;
 
     // 2. Fetch current user's votes
-    const { data: userVotes } = await supabaseClient
-      .from('votes')
-      .select('*')
-      .eq('user_id', window.currentUser.id);
+    let userVotes = [];
+    if (window.currentUser) {
+      const { data: votesData, error: votesError } = await supabaseClient
+        .from('votes')
+        .select('*')
+        .eq('user_id', window.currentUser.id);
+      if (!votesError && votesData) {
+        userVotes = votesData;
+      }
+    }
 
     if (requestId !== window.currentFeedRequestId) {
       console.warn(`renderFeed call #${requestId} aborted after votes fetch because currentFeedRequestId is ${window.currentFeedRequestId}`);
@@ -689,6 +746,7 @@ async function renderComments(factId) {
 }
 
 function openPostModal() {
+  if (!requireAuth()) return;
   document.getElementById('post-modal').classList.add('open');
 }
 
@@ -755,6 +813,7 @@ const voteLocks = {};
 
 async function handleVote(event, factId, type) {
   if (event) event.preventDefault();
+  if (!requireAuth()) return;
   if (!supabaseClient) return;
 
   if (voteLocks[factId]) return; // ignore quick double taps
@@ -944,6 +1003,7 @@ function toggleComments(event, factId) {
 // Add Comments (Supabase)
 async function submitComment(event, factId) {
   if (event) event.preventDefault();
+  if (!requireAuth()) return;
   const input = document.getElementById(`comment-input-${factId}`);
   const content = input.value.trim();
 
@@ -1096,6 +1156,7 @@ async function refreshCurrentUserState() {
 let tempAvatarUrl = null;
 
 function openEditProfileModal() {
+  if (!requireAuth()) return;
   tempAvatarUrl = window.currentUser.avatar_url || null;
   document.getElementById('edit-display-name').value = window.currentUser.display_name;
   document.getElementById('edit-bio').value = window.currentUser.bio || '';
@@ -1393,7 +1454,8 @@ async function renderMyProfileSubTabFeed() {
 
 async function openUserProfile(event, userId) {
   if (event) event.preventDefault();
-  if (!supabaseClient || !window.currentUser) return;
+  if (!supabaseClient) return;
+  if (!requireAuth()) return;
 
   // If clicking on their own name, switch to my profile tab instead!
   if (userId === window.currentUser.id) {
@@ -1515,7 +1577,8 @@ function closeUserProfileModalOnOverlay(event) {
 }
 
 async function toggleFollowUser() {
-  if (!supabaseClient || !window.currentUser || !selectedProfileId) return;
+  if (!requireAuth()) return;
+  if (!supabaseClient || !selectedProfileId) return;
 
   const followBtn = document.getElementById('btn-follow-user');
   const dict = translations[currentLang];
@@ -1738,7 +1801,8 @@ function shareFact(event, factId) {
 
 async function reportContent(event, factId, commentId) {
   if (event) event.preventDefault();
-  if (!supabaseClient || !window.currentUser) return;
+  if (!supabaseClient) return;
+  if (!requireAuth()) return;
 
   const defaultReason = currentLang === 'es' ? "Contenido inapropiado" : "Inappropriate content";
   const promptMsg = currentLang === 'es'
@@ -1794,4 +1858,17 @@ function animateConsensusBars() {
       bar.style.width = targetWidth + '%';
     }
   });
+}
+
+function cycleTheme() {
+  if (currentTheme === 'purple') {
+    currentTheme = 'blue';
+  } else if (currentTheme === 'blue') {
+    currentTheme = 'sunset';
+  } else {
+    currentTheme = 'purple';
+  }
+  localStorage.setItem('factos_theme', currentTheme);
+  applyTheme();
+  showToast(currentLang === 'es' ? "Tema de color cambiado" : "Color theme changed");
 }

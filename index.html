@@ -139,6 +139,11 @@
           <option value="en">EN</option>
         </select>
 
+        <!-- Theme Toggle Button -->
+        <button id="btn-theme-toggle" type="button" class="btn-theme-toggle" onclick="cycleTheme()" title="Cambiar Tema" data-i18n-title="theme_toggle_title">
+          <i class="fa-solid fa-palette"></i>
+        </button>
+
 
 
         <div class="user-badge">
@@ -400,11 +405,12 @@
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>
-    <button type="button" class="bottom-nav-item" id="bottom-nav-interactions" onclick="switchFeedTab('interactions')"
-      style="position: relative;">
-      <i class="fa-solid fa-circle-nodes"></i>
+    <button type="button" class="bottom-nav-item" id="bottom-nav-interactions" onclick="switchFeedTab('interactions')">
+      <div class="bottom-nav-icon-wrapper">
+        <i class="fa-solid fa-circle-nodes"></i>
+        <span id="bottom-notification-badge" class="notification-badge hidden">0</span>
+      </div>
       <span data-i18n="nav_interactions">Interacciones</span>
-      <span id="bottom-notification-badge" class="notification-badge hidden">0</span>
     </button>
     <button type="button" class="bottom-nav-item" id="bottom-nav-profile" onclick="switchFeedTab('profile')">
       <i class="fa-regular fa-user"></i>

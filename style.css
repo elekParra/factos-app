@@ -39,6 +39,40 @@
   --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Theme 2: Ocean Blue & Cyan */
+body.theme-blue {
+  --bg-main: hsl(210, 35%, 7%);
+  --bg-surface: hsla(210, 30%, 13%, 0.7);
+  --bg-surface-hover: hsla(210, 30%, 18%, 0.85);
+  --border-color: hsla(210, 20%, 25%, 0.5);
+  --border-focus: hsla(185, 100%, 50%, 0.6);
+  
+  --primary: hsl(195, 95%, 45%);
+  --primary-glow: hsla(195, 95%, 45%, 0.3);
+  --primary-hover: hsl(195, 95%, 55%);
+  --secondary: hsl(220, 95%, 55%);
+  
+  --glow-cyan: hsl(180, 100%, 50%);
+  --glow-pink: hsl(200, 100%, 60%);
+}
+
+/* Theme 3: Sunset Gold & Amber */
+body.theme-sunset {
+  --bg-main: hsl(15, 25%, 7%);
+  --bg-surface: hsla(15, 20%, 13%, 0.7);
+  --bg-surface-hover: hsla(15, 20%, 18%, 0.85);
+  --border-color: hsla(15, 15%, 25%, 0.5);
+  --border-focus: hsla(30, 100%, 50%, 0.6);
+  
+  --primary: hsl(20, 95%, 50%);
+  --primary-glow: hsla(20, 95%, 50%, 0.3);
+  --primary-hover: hsl(20, 95%, 58%);
+  --secondary: hsl(42, 95%, 50%);
+  
+  --glow-cyan: hsl(15, 100%, 60%);
+  --glow-pink: hsl(45, 100%, 55%);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -385,6 +419,26 @@ body {
 .btn-icon-logout:hover {
   color: var(--disagree-color);
   background: rgba(239, 68, 68, 0.1);
+}
+
+.btn-theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-theme-toggle:hover {
+  color: var(--primary-hover);
+  background: var(--bg-surface-hover);
+  transform: scale(1.1);
 }
 
 /* Sidebar styling */
@@ -1224,7 +1278,19 @@ body {
 .bottom-nav-item.active i {
   background: linear-gradient(135deg, var(--glow-cyan), var(--primary));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+}
+
+.bottom-nav-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav-icon-wrapper .notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
 }
 
 .bottom-nav-item-post-wrapper {
@@ -1299,6 +1365,14 @@ body {
 }
 
 @media (max-width: 600px) {
+  .app-header {
+    padding: 0 15px;
+  }
+  
+  .header-actions {
+    gap: 10px;
+  }
+
   .user-badge {
     display: none;
   }
@@ -1321,12 +1395,23 @@ body {
   }
   
   .consensus-actions {
-    gap: 10px;
+    gap: 8px;
   }
   
   .btn-vote {
-    font-size: 0.85rem;
-    padding: 10px;
+    font-size: 0.8rem;
+    padding: 8px 6px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 500px) {
+  .bottom-nav-item span {
+    display: none;
+  }
+  
+  .bottom-nav-item i {
+    font-size: 1.4rem;
   }
 }
 

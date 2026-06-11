@@ -80,7 +80,8 @@ const translations = {
     btn_view_all: "Ver todo el feed",
     follow: "Seguir",
     following: "Siguiendo",
-    nav_interactions: "Notificaciones"
+    nav_interactions: "Interacciones",
+    theme_toggle_title: "Cambiar Tema de Color"
   },
   en: {
     brand_subtitle: "Verify the beliefs that shape the world",
@@ -162,6 +163,7 @@ const translations = {
     btn_view_all: "View all feed",
     follow: "Follow",
     following: "Following",
-    nav_interactions: "Interactions"
+    nav_interactions: "Interactions",
+    theme_toggle_title: "Change Color Theme"
   }
 };
