@@ -7,7 +7,7 @@
   <!-- Supabase JS Library SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Google Fonts & Icon sets -->
-  <link rel="stylesheet" href="style.css?v=3.6">
+  <link rel="stylesheet" href="style.css?v=3.9">
   <!-- FontAwesome Icons for modern aesthetic -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -149,23 +149,7 @@
           <option value="en">EN</option>
         </select>
 
-        <!-- Notification Bell -->
-        <div class="notification-bell-container">
-          <button class="btn-icon-bell" type="button" onclick="toggleNotificationsDropdown(event)">
-            <i class="fa-regular fa-bell"></i>
-            <span id="notification-badge" class="notification-badge hidden">0</span>
-          </button>
-          <!-- Dropdown List -->
-          <div id="notifications-dropdown" class="glass-panel notifications-dropdown hidden">
-            <div class="notifications-header">
-              <h4 data-i18n="notifications_title">Notificaciones</h4>
-              <button type="button" class="btn-mark-all" onclick="markAllNotificationsAsRead(event)" data-i18n="mark_all_read">Marcar leídas</button>
-            </div>
-            <div id="notifications-list" class="notifications-list">
-              <!-- Rendered dynamically -->
-            </div>
-          </div>
-        </div>
+
 
         <!-- Logged In Header Actions -->
         <div id="header-user-actions" style="display: flex; align-items: center; gap: 15px;">
@@ -226,7 +210,7 @@
           <i class="fa-solid fa-fire-flame-curved"></i> <span data-i18n="nav_trending">Tendencias</span>
         </li>
         <li class="nav-item" id="nav-notifications" onclick="switchFeedTab('notifications')">
-          <i class="fa-regular fa-bell"></i> <span data-i18n="notifications_title">Notificaciones</span>
+          <i class="fa-solid fa-circle-nodes"></i> <span data-i18n="notifications_title">Notificaciones</span>
         </li>
         <li class="nav-item" id="nav-profile" onclick="switchFeedTab('profile')">
           <i class="fa-regular fa-user"></i> <span data-i18n="profile_tab_title">Mi Perfil</span>
@@ -431,7 +415,7 @@
       </button>
     </div>
     <button type="button" class="bottom-nav-item" id="bottom-nav-notifications" onclick="switchFeedTab('notifications')" style="position: relative;">
-      <i class="fa-regular fa-bell"></i>
+      <i class="fa-solid fa-circle-nodes"></i>
       <span data-i18n="notifications_title">Notificaciones</span>
       <!-- Mini Badge on Mobile Bell -->
       <span id="notification-badge-mobile" class="notification-badge hidden" style="top: 2px; right: calc(50% - 18px); position: absolute;">0</span>
@@ -573,6 +557,6 @@
   </div>
 
   <!-- JavaScript application file with cache buster -->
-  <script src="app.js?v=3.6"></script>
+  <script src="app.js?v=3.9"></script>
 </body>
 </html>

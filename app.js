@@ -798,10 +798,12 @@ async function renderFeed() {
   if (!supabaseClient) return;
   
   try {
-    // 1. Fetch facts with profiles join
+    // 1. Fetch recent facts with profiles join, ordered and limited to 50 for max speed
     const { data: facts, error } = await supabaseClient
       .from('facts')
-      .select('*, profiles!user_id(*)');
+      .select('*, profiles!user_id(*)')
+      .order('created_at', { ascending: false })
+      .limit(50);
     
     if (localGeneration !== feedRenderGeneration) return;
     if (error) throw error;
@@ -836,16 +838,41 @@ async function renderFeed() {
     if (currentFeedTab === 'recent') {
       filteredFacts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } else {
-      // Trending Sort Formula
+      // Trending Sort Formula (sorted ascendingly "de menor a mayor")
       filteredFacts.sort((a, b) => {
         const getScore = (f) => {
           const totalActivity = f.agree_count + f.disagree_count + (f.comment_count * 1.5);
           const ageHours = (new Date() - new Date(f.created_at)) / (1000 * 60 * 60);
           return totalActivity / Math.pow(ageHours + 2, 1.2);
         };
-        return getScore(b) - getScore(a);
+        return getScore(a) - getScore(b);
       });
     }
+
+    // 3. Batch fetch all comments for these facts in a single request to resolve N+1 comments query problems
+    const factIds = filteredFacts.map(f => f.id);
+    let commentsData = [];
+    if (factIds.length > 0) {
+      const { data: comments, error: ce } = await supabaseClient
+        .from('comments')
+        .select('*, profiles!user_id(*)')
+        .in('fact_id', factIds)
+        .order('created_at', { ascending: true });
+        
+      if (localGeneration !== feedRenderGeneration) return;
+      if (!ce) {
+        commentsData = comments || [];
+      }
+    }
+    
+    // Group preloaded comments by fact_id
+    const commentsByFact = {};
+    commentsData.forEach(c => {
+      if (!commentsByFact[c.fact_id]) {
+        commentsByFact[c.fact_id] = [];
+      }
+      commentsByFact[c.fact_id].push(c);
+    });
 
     feedContainer.innerHTML = '';
     
@@ -859,10 +886,11 @@ async function renderFeed() {
       return;
     }
 
-    // Resolve card rendering HTML promises in parallel to resolve N+1 sequential await bottlenecks
+    // Resolve card rendering HTML promises in parallel with preloaded comments
     const cardPromises = filteredFacts.map(async (fact) => {
       const userVote = userVotes ? userVotes.find(v => v.fact_id === fact.id) : null;
-      const cardHTML = await buildFactCardHTML(fact, userVote, dict);
+      const preloadedComments = commentsByFact[fact.id] || [];
+      const cardHTML = await buildFactCardHTML(fact, userVote, dict, preloadedComments);
       return { fact, cardHTML };
     });
     
@@ -907,19 +935,24 @@ async function getMostLikedFact(userId) {
 }
 
 // Compile comments asynchronously
-async function buildCommentsHTML(factId, showAll = false) {
+async function buildCommentsHTML(factId, showAll = false, preloadedComments = null) {
   if (!supabaseClient) return '';
   
   const dict = translations[currentLang];
   
   try {
-    const { data: allComments, error } = await supabaseClient
-      .from('comments')
-      .select('*, profiles!user_id(*)')
-      .eq('fact_id', factId)
-      .order('created_at', { ascending: true });
+    let allComments = preloadedComments;
+    if (!allComments) {
+      const { data, error } = await supabaseClient
+        .from('comments')
+        .select('*, profiles!user_id(*)')
+        .eq('fact_id', factId)
+        .order('created_at', { ascending: true });
+      if (error) throw error;
+      allComments = data || [];
+    }
     
-    if (error || !allComments || allComments.length === 0) {
+    if (!allComments || allComments.length === 0) {
       return `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 10px;">${dict.no_comments}</p>`;
     }
 
@@ -1510,7 +1543,7 @@ async function handleSaveProfile(event) {
 // NEW FEATURE IMPLEMENTATIONS (ADVANCED)
 // ==========================================
 
-async function buildFactCardHTML(fact, userVote, dict) {
+async function buildFactCardHTML(fact, userVote, dict, preloadedComments = null) {
   const author = fact.profiles || { display_name: 'System', username: 'system', trust_score: 50 };
   const totalVotes = fact.agree_count + fact.disagree_count;
   const agreePercent = totalVotes > 0 ? Math.round((fact.agree_count / totalVotes) * 100) : 50;
@@ -1520,7 +1553,7 @@ async function buildFactCardHTML(fact, userVote, dict) {
   const categoryKey = `cat_${fact.category.toLowerCase()}`;
   const categoryName = dict[categoryKey] || fact.category;
   
-  const commentsHTML = await buildCommentsHTML(fact.id, false);
+  const commentsHTML = await buildCommentsHTML(fact.id, false, preloadedComments);
 
   const deleteFactBtnHTML = window.currentUser && (window.currentUser.is_admin || fact.user_id === window.currentUser.id) ? `
     <button type="button" onclick="handleDeleteFact(event, '${fact.id}')" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); margin-left: 6px;" onmouseover="this.style.color='var(--disagree-color)'; this.style.background='rgba(239, 68, 68, 0.1)';" onmouseout="this.style.color='var(--text-muted)'; this.style.background='none';" title="${currentLang === 'es' ? 'Eliminar Facto' : 'Delete Fact'}">
@@ -1699,6 +1732,31 @@ async function renderMyProfileSubTabFeed() {
     container.innerHTML = '';
     const dict = translations[currentLang];
     
+    // 3. Batch fetch all comments for these facts in a single request to resolve N+1 comments query problems
+    const factIds = facts.map(f => f.id);
+    let commentsData = [];
+    if (factIds.length > 0) {
+      const { data: comments, error: ce } = await supabaseClient
+        .from('comments')
+        .select('*, profiles!user_id(*)')
+        .in('fact_id', factIds)
+        .order('created_at', { ascending: true });
+        
+      if (localGeneration !== profileRenderGeneration) return;
+      if (!ce) {
+        commentsData = comments || [];
+      }
+    }
+    
+    // Group preloaded comments by fact_id
+    const commentsByFact = {};
+    commentsData.forEach(c => {
+      if (!commentsByFact[c.fact_id]) {
+        commentsByFact[c.fact_id] = [];
+      }
+      commentsByFact[c.fact_id].push(c);
+    });
+
     if (facts.length === 0) {
       container.innerHTML = `
         <div style="padding: 30px; text-align: center; color: var(--text-muted);">
@@ -1710,7 +1768,8 @@ async function renderMyProfileSubTabFeed() {
     
     const cardPromises = facts.map(async (fact) => {
       const userVote = userVotes ? userVotes.find(v => v.fact_id === fact.id) : null;
-      const cardHTML = await buildFactCardHTML(fact, userVote, dict);
+      const preloadedComments = commentsByFact[fact.id] || [];
+      const cardHTML = await buildFactCardHTML(fact, userVote, dict, preloadedComments);
       return { fact, cardHTML };
     });
     
