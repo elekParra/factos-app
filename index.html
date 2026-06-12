@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,38 +7,36 @@
   <!-- Supabase JS Library SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Google Fonts & Icon sets -->
-  <link rel="stylesheet" href="style.css?v=4.3">
+  <link rel="stylesheet" href="style.css?v=3.6">
   <!-- FontAwesome Icons for modern aesthetic -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
 
-  <!-- Background decorative blobs -->
-  <div class="bg-glowing-blob blob-1"></div>
-  <div class="bg-glowing-blob blob-2"></div>
+  <!-- Background decorative blobs wrapper to prevent viewport overflow -->
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: -1;">
+    <div class="bg-glowing-blob blob-1"></div>
+    <div class="bg-glowing-blob blob-2"></div>
+  </div>
 
   <!-- SUPABASE CONFIGURATION SCREEN -->
   <section id="config-screen" class="auth-container hidden">
     <div class="glass-panel auth-card">
       <div class="auth-header">
         <h1 class="brand-logo"><i class="fa-solid fa-cloud"></i> Supabase</h1>
-        <p class="auth-subtitle">Introduce las credenciales de tu proyecto de Supabase para conectar la base de datos
-          remota.</p>
+        <p class="auth-subtitle">Introduce las credenciales de tu proyecto de Supabase para conectar la base de datos remota.</p>
       </div>
       <form id="config-form" onsubmit="handleSaveConfig(event)">
         <div class="form-group">
           <label for="config-url">Supabase Project URL</label>
           <div class="input-wrapper">
-            <input type="url" id="config-url" class="input-control" required placeholder="https://xxxxxx.supabase.co"
-              style="padding-left: 16px;">
+            <input type="url" id="config-url" class="input-control" required placeholder="https://xxxxxx.supabase.co" style="padding-left: 16px;">
           </div>
         </div>
         <div class="form-group">
           <label for="config-key">Supabase Anon Key</label>
           <div class="input-wrapper">
-            <input type="text" id="config-key" class="input-control" required placeholder="eyJhbGciOi..."
-              style="padding-left: 16px;">
+            <input type="text" id="config-key" class="input-control" required placeholder="eyJhbGciOi..." style="padding-left: 16px;">
           </div>
         </div>
         <button type="submit" class="btn-primary">Conectar Proyecto / Connect Project</button>
@@ -50,8 +47,12 @@
   <!-- AUTHENTICATION SCREEN -->
   <section id="auth-screen" class="auth-container hidden">
     <div class="glass-panel auth-card">
-      <!-- Language Switcher in Auth Screen -->
-      <div class="lang-switch-container">
+      <!-- Language & Theme Switchers in Auth Screen -->
+      <div class="lang-switch-container" style="display: flex; gap: 8px; align-items: center;">
+        <button type="button" class="btn-theme-toggle" onclick="toggleThemeNext()" data-i18n-title="change_theme_title" title="Cambiar Tema">
+          <span class="theme-toggle-icon">🌌</span>
+          <span class="theme-toggle-text">Space Cyber</span>
+        </button>
         <select class="lang-select" onchange="changeLanguage(this.value)">
           <option value="es" selected>ES</option>
           <option value="en">EN</option>
@@ -59,21 +60,23 @@
       </div>
 
       <div class="auth-header">
-        <h1 class="brand-logo"
-          style="background: none; -webkit-background-clip: initial; -webkit-text-fill-color: initial; display: flex; align-items: center; justify-content: center; gap: 12px;">
-          <img src="factos_logo.png" alt="Factos Logo"
-            style="height: 48px; width: 48px; border-radius: 10px; object-fit: cover;" />
-          <span
-            style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Factos</span>
+        <h1 class="brand-logo" style="background: none; -webkit-background-clip: initial; -webkit-text-fill-color: initial; display: flex; align-items: center; justify-content: center; gap: 12px;">
+          <img src="factos_logo.png" alt="Factos Logo" style="height: 48px; width: 48px; border-radius: 10px; object-fit: cover;" />
+          <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Factos</span>
         </h1>
         <p class="auth-subtitle" data-i18n="brand_subtitle">Verifica las creencias que dan forma al mundo</p>
       </div>
 
-      <!-- Login / Signup tabs -->
-      <div class="auth-tabs">
-        <div id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')" data-i18n="login_tab">Iniciar
-          Sesión</div>
-        <div id="tab-signup" class="auth-tab" onclick="switchAuthTab('signup')" data-i18n="signup_tab">Registrarse</div>
+      <!-- Toggle Auth Option (Registrarse or Iniciar Sesión) -->
+      <div class="auth-toggle-container" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; gap: 12px;">
+        <button type="button" id="auth-toggle-btn" class="btn-secondary" style="width: auto; padding: 8px 24px; font-size: 0.85rem;" onclick="toggleAuthMode()">
+          Registrarse
+        </button>
+        <div class="auth-divider" style="display: flex; align-items: center; width: 100%; color: var(--text-muted); font-size: 0.85rem; gap: 10px;">
+          <span style="flex: 1; height: 1px; background: var(--border-color);"></span>
+          <span id="auth-divider-text">o inicia sesión</span>
+          <span style="flex: 1; height: 1px; background: var(--border-color);"></span>
+        </div>
       </div>
 
       <!-- Form -->
@@ -83,16 +86,14 @@
           <div class="form-group">
             <label for="reg-name" data-i18n="reg_name_label">Nombre para Mostrar</label>
             <div class="input-wrapper">
-              <input type="text" id="reg-name" class="input-control" data-i18n-placeholder="reg_name_placeholder"
-                placeholder="Juan Pérez">
+              <input type="text" id="reg-name" class="input-control" data-i18n-placeholder="reg_name_placeholder" placeholder="Juan Pérez">
               <i class="fa-regular fa-user"></i>
             </div>
           </div>
           <div class="form-group">
             <label for="reg-username" data-i18n="reg_username_label">Nombre de Usuario</label>
             <div class="input-wrapper">
-              <input type="text" id="reg-username" class="input-control"
-                data-i18n-placeholder="reg_username_placeholder" placeholder="juanperez">
+              <input type="text" id="reg-username" class="input-control" data-i18n-placeholder="reg_username_placeholder" placeholder="juanperez">
               <i class="fa-solid fa-at"></i>
             </div>
           </div>
@@ -101,8 +102,7 @@
         <div class="form-group">
           <label for="auth-email" data-i18n="email_label">Correo Electrónico</label>
           <div class="input-wrapper">
-            <input type="email" id="auth-email" class="input-control" required data-i18n-placeholder="email_placeholder"
-              placeholder="nombre@dominio.com">
+            <input type="email" id="auth-email" class="input-control" required data-i18n-placeholder="email_placeholder" placeholder="nombre@dominio.com">
             <i class="fa-regular fa-envelope"></i>
           </div>
         </div>
@@ -110,15 +110,20 @@
         <div class="form-group">
           <label for="auth-password" data-i18n="password_label">Contraseña</label>
           <div class="input-wrapper">
-            <input type="password" id="auth-password" class="input-control" required
-              data-i18n-placeholder="password_placeholder" placeholder="••••••••">
+            <input type="password" id="auth-password" class="input-control" required data-i18n-placeholder="password_placeholder" placeholder="••••••••">
             <i class="fa-solid fa-lock"></i>
           </div>
         </div>
 
         <button type="submit" id="auth-btn" class="btn-primary" data-i18n="btn_login">Iniciar Sesión</button>
-      </form>
 
+        <!-- Google Sign In Button -->
+        <button type="button" onclick="handleGoogleSignIn(event)" class="btn-secondary" style="width: 100%; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; font-weight: 600;">
+          <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.15rem; position: static; transform: none;"></i>
+          <span data-i18n="btn_google">Iniciar con Google</span>
+        </button>
+      </form>
+      
       <p class="auth-footer-text" data-i18n="footer_text">Protegido por pautas de verificación descentralizadas.</p>
     </div>
   </section>
@@ -128,51 +133,72 @@
     <!-- Header -->
     <header class="app-header">
       <div class="header-brand" style="display: flex; align-items: center; gap: 10px;">
-        <img src="factos_logo.png" alt="Factos Logo"
-          style="height: 32px; width: 32px; border-radius: 6px; object-fit: cover;" />
+        <img src="factos_logo.png" alt="Factos Logo" style="height: 32px; width: 32px; border-radius: 6px; object-fit: cover;" />
         <span>Factos</span>
       </div>
       <div class="header-actions">
+        <!-- Theme Switcher in App Header -->
+        <button type="button" class="btn-theme-toggle" onclick="toggleThemeNext()" data-i18n-title="change_theme_title" title="Cambiar Tema">
+          <span class="theme-toggle-icon">🌌</span>
+          <span class="theme-toggle-text">Space Cyber</span>
+        </button>
+
         <!-- Language Switcher in App Header -->
         <select class="lang-select" onchange="changeLanguage(this.value)">
           <option value="es" selected>ES</option>
           <option value="en">EN</option>
         </select>
 
-        <!-- Theme Toggle Button -->
-        <button id="btn-theme-toggle" type="button" class="btn-theme-toggle" onclick="cycleTheme()" title="Cambiar Tema" data-i18n-title="theme_toggle_title">
-          <i class="fa-solid fa-palette"></i>
-        </button>
-
-
-
-        <div class="user-badge">
-          <div id="user-avatar-mini-container"></div>
-          <span id="user-display-name">Invitado</span>
-          <span class="trust-badge-mini" id="user-trust-mini">50.00</span>
+        <!-- Notification Bell -->
+        <div class="notification-bell-container">
+          <button class="btn-icon-bell" type="button" onclick="toggleNotificationsDropdown(event)">
+            <i class="fa-regular fa-bell"></i>
+            <span id="notification-badge" class="notification-badge hidden">0</span>
+          </button>
+          <!-- Dropdown List -->
+          <div id="notifications-dropdown" class="glass-panel notifications-dropdown hidden">
+            <div class="notifications-header">
+              <h4 data-i18n="notifications_title">Notificaciones</h4>
+              <button type="button" class="btn-mark-all" onclick="markAllNotificationsAsRead(event)" data-i18n="mark_all_read">Marcar leídas</button>
+            </div>
+            <div id="notifications-list" class="notifications-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
         </div>
-        <button class="btn-icon-logout" type="button" onclick="logout()" data-i18n-title="logout_title"
-          title="Cerrar Sesión">
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
+
+        <!-- Logged In Header Actions -->
+        <div id="header-user-actions" style="display: flex; align-items: center; gap: 15px;">
+          <div class="user-badge">
+            <div id="user-avatar-mini-container"></div>
+            <span id="user-display-name">Invitado</span>
+            <span class="trust-badge-mini" id="user-trust-mini">50.00</span>
+          </div>
+          <button class="btn-icon-logout" type="button" onclick="logout()" data-i18n-title="logout_title" title="Cerrar Sesión">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+        
+        <!-- Guest Header Actions -->
+        <div id="header-guest-actions" class="hidden" style="display: flex; align-items: center; gap: 10px;">
+          <button type="button" class="btn-primary" style="width: auto; padding: 6px 16px; font-size: 0.85rem;" onclick="openAuthModal()" data-i18n="btn_login">Iniciar Sesión</button>
+        </div>
       </div>
     </header>
 
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="glass-panel profile-card" style="position: relative;">
+      <!-- SIDEBAR PROFILE CARD (For Logged In Users) -->
+      <div id="sidebar-profile-card" class="glass-panel profile-card" style="position: relative;">
         <!-- Edit Profile Trigger Icon -->
-        <button type="button" onclick="openEditProfileModal()"
-          style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; transition: color var(--transition-fast);"
-          title="Editar Perfil" data-i18n-title="edit_profile_title">
+        <button type="button" onclick="openEditProfileModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; transition: color var(--transition-fast);" title="Editar Perfil" data-i18n-title="edit_profile_title">
           <i class="fa-regular fa-pen-to-square" style="font-size: 1.1rem;"></i>
         </button>
         <div id="profile-avatar-container" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
         <h3 class="profile-name" id="profile-display-name">Nombre de Usuario</h3>
         <p class="profile-username" id="profile-handle">@nombre</p>
-        <p class="profile-bio" id="profile-bio"
-          style="font-size: 0.8rem; color: var(--text-secondary); margin: 6px 0 15px 0; font-style: italic;"></p>
-
+        <p class="profile-bio" id="profile-bio" style="font-size: 0.8rem; color: var(--text-secondary); margin: 6px 0 15px 0; font-style: italic;"></p>
+        
         <div class="trust-meter">
           <div class="trust-score-label" data-i18n="trust_label">Reputación de Confianza</div>
           <div class="trust-score-value" id="profile-trust">50.00</div>
@@ -182,6 +208,16 @@
         </div>
       </div>
 
+      <!-- GUEST SIDEBAR CALL TO ACTION CARD (For Guests) -->
+      <div id="sidebar-guest-card" class="glass-panel guest-cta-card hidden" style="padding: 24px; text-align: center; display: flex; flex-direction: column; gap: 15px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700;" data-i18n="guest_cta_title">¿Eres nuevo en Factos?</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4;" data-i18n="guest_cta_desc">Únete para poder verificar declaraciones, votar consensus, seguir a otros y reportar contenido.</p>
+        <button type="button" class="btn-primary" style="padding: 10px;" onclick="openAuthModal()" data-i18n="btn_signup">Registrarse</button>
+        <button type="button" class="btn-secondary" style="padding: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;" onclick="handleGoogleSignIn(event)">
+          <i class="fa-brands fa-google" style="color: #ea4335;"></i> Google
+        </button>
+      </div>
+
       <ul class="sidebar-nav">
         <li class="nav-item active" id="nav-recent" onclick="switchFeedTab('recent')">
           <i class="fa-regular fa-clock"></i> <span data-i18n="nav_recent">Recientes</span>
@@ -189,10 +225,8 @@
         <li class="nav-item" id="nav-trending" onclick="switchFeedTab('trending')">
           <i class="fa-solid fa-fire-flame-curved"></i> <span data-i18n="nav_trending">Tendencias</span>
         </li>
-        <li class="nav-item" id="nav-interactions" onclick="switchFeedTab('interactions')" style="position: relative;">
-          <i class="fa-solid fa-circle-nodes"></i> <span data-i18n="nav_interactions">Notificaciones</span>
-          <span id="sidebar-notification-badge" class="notification-badge hidden"
-            style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%);">0</span>
+        <li class="nav-item" id="nav-notifications" onclick="switchFeedTab('notifications')">
+          <i class="fa-regular fa-bell"></i> <span data-i18n="notifications_title">Notificaciones</span>
         </li>
         <li class="nav-item" id="nav-profile" onclick="switchFeedTab('profile')">
           <i class="fa-regular fa-user"></i> <span data-i18n="profile_tab_title">Mi Perfil</span>
@@ -203,12 +237,26 @@
     <!-- Main Content Area -->
     <main class="feed-layout">
       <!-- Shared Fact Banner (Hidden by default) -->
-      <div id="shared-fact-banner" class="glass-panel hidden"
-        style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-color: var(--border-focus); background: hsla(250, 89%, 65%, 0.1);">
-        <span style="font-size: 0.85rem; font-weight: 600;" data-i18n="shared_fact_notice">Viendo un facto compartido
-          directo</span>
-        <button type="button" class="btn-primary" style="width: auto; padding: 6px 16px; font-size: 0.8rem;"
-          onclick="clearSharedFactFilter()" data-i18n="btn_view_all">Ver todo el feed</button>
+      <div id="shared-fact-banner" class="glass-panel hidden" style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-color: var(--border-focus); background: hsla(250, 89%, 65%, 0.1);">
+        <span style="font-size: 0.85rem; font-weight: 600;" data-i18n="shared_fact_notice">Viendo un facto compartido directo</span>
+        <button type="button" class="btn-primary" style="width: auto; padding: 6px 16px; font-size: 0.8rem;" onclick="clearSharedFactFilter()" data-i18n="btn_view_all">Ver todo el feed</button>
+      </div>
+
+      <!-- Guest Feed Banner (Only visible to guests) -->
+      <div id="guest-feed-banner" class="glass-panel hidden" style="padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; border-color: var(--primary); background: hsla(250, 89%, 65%, 0.08);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h4 style="font-family: var(--font-heading); font-weight: 700; font-size: 1rem; margin-bottom: 4px;" data-i18n="guest_banner_title">¿Quieres participar en Factos?</h4>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.3;" data-i18n="guest_banner_desc">Crea una cuenta o inicia sesión con Google para votar, comentar y publicar declaraciones.</p>
+          </div>
+          <button type="button" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" onclick="hideGuestFeedBanner()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn-primary" style="width: auto; padding: 6px 16px; font-size: 0.8rem;" onclick="openAuthModal()" data-i18n="btn_signup">Registrarse</button>
+          <button type="button" class="btn-secondary" style="width: auto; padding: 6px 16px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; font-weight: 600;" onclick="handleGoogleSignIn(event)">
+            <i class="fa-brands fa-google" style="color: #ea4335;"></i> Google
+          </button>
+        </div>
       </div>
 
       <div class="feed-header" id="feed-header-wrapper">
@@ -221,8 +269,7 @@
       <!-- Search Bar -->
       <div class="search-container" id="search-bar-container">
         <div class="input-wrapper">
-          <input type="text" id="search-input" class="input-control" data-i18n-placeholder="search_placeholder"
-            placeholder="Buscar factos..." oninput="handleSearch(this.value)">
+          <input type="text" id="search-input" class="input-control" data-i18n-placeholder="search_placeholder" placeholder="Buscar factos..." oninput="handleSearch(this.value)">
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
       </div>
@@ -232,48 +279,28 @@
         <!-- Rendered dynamically from JS -->
       </div>
 
-      <!-- Notifications/Interactions View (Hidden by default) -->
-      <div id="interactions-view" class="hidden">
-        <div class="glass-panel" style="padding: 24px; margin-bottom: 24px;">
-          <div class="notifications-header"
-            style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; gap: 15px;">
-            <h2 style="font-family: var(--font-heading); font-size: 1.5rem; margin: 0;" data-i18n="notifications_title">
-              Notificaciones</h2>
-            <button type="button" class="btn-primary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;"
-              onclick="markAllNotificationsAsRead(event)" data-i18n="mark_all_read">Marcar leídas</button>
-          </div>
-          <div id="notifications-list" class="notifications-list">
-            <!-- Rendered dynamically -->
-          </div>
-        </div>
-      </div>
-
       <!-- User Profile Feed View (Hidden by default) -->
       <div id="user-profile-view" class="hidden">
         <!-- Profile info at the top -->
         <div class="glass-panel profile-view-card" style="padding: 24px; margin-bottom: 24px; position: relative;">
           <!-- Edit button -->
-          <button type="button" onclick="openEditProfileModal()"
-            style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-muted); cursor: pointer; transition: color var(--transition-fast);"
-            title="Editar Perfil" data-i18n-title="edit_profile_title">
+          <button type="button" onclick="openEditProfileModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-muted); cursor: pointer; transition: color var(--transition-fast);" title="Editar Perfil" data-i18n-title="edit_profile_title">
             <i class="fa-regular fa-pen-to-square" style="font-size: 1.15rem;"></i>
           </button>
-
+          
           <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
             <div id="my-profile-avatar" style="flex-shrink: 0;"></div>
             <div>
               <h3 id="my-profile-display-name" class="profile-name" style="margin-bottom: 2px;">Nombre</h3>
               <p id="my-profile-handle" class="profile-username" style="margin-bottom: 10px;">@username</p>
-              <div
-                style="display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">
+              <div style="display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">
                 <span id="my-profile-followers-count">0 seguidores</span>
                 <span id="my-profile-following-count">0 siguiendo</span>
               </div>
             </div>
           </div>
-          <p id="my-profile-bio" class="profile-bio"
-            style="font-size: 0.85rem; color: var(--text-secondary); font-style: italic; margin-bottom: 15px;"></p>
-
+          <p id="my-profile-bio" class="profile-bio" style="font-size: 0.85rem; color: var(--text-secondary); font-style: italic; margin-bottom: 15px;"></p>
+          
           <!-- Trust meter -->
           <div class="trust-meter">
             <div class="trust-score-label" data-i18n="trust_label">Reputación de Confianza</div>
@@ -285,17 +312,27 @@
         </div>
 
         <!-- Profile tabs: My Posts vs My Likes -->
-        <div class="profile-tabs-nav"
-          style="display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; gap: 20px;">
-          <button type="button" id="tab-my-posts" class="profile-tab-btn active" onclick="switchProfileSubTab('posts')"
-            data-i18n="my_posts_tab">Mis Publicaciones</button>
-          <button type="button" id="tab-my-likes" class="profile-tab-btn" onclick="switchProfileSubTab('likes')"
-            data-i18n="my_likes_tab">Mis Me Gusta</button>
+        <div class="profile-tabs-nav" style="display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; gap: 20px;">
+          <button type="button" id="tab-my-posts" class="profile-tab-btn active" onclick="switchProfileSubTab('posts')" data-i18n="my_posts_tab">Mis Publicaciones</button>
+          <button type="button" id="tab-my-likes" class="profile-tab-btn" onclick="switchProfileSubTab('likes')" data-i18n="my_likes_tab">Mis Me Gusta</button>
         </div>
 
         <!-- Profile feed container -->
         <div id="profile-facts-feed">
           <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Notifications Feed View (Hidden by default) -->
+      <div id="notifications-view" class="hidden">
+        <div class="glass-panel" style="padding: 24px; margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            <h3 style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800;" data-i18n="notifications_title">Notificaciones</h3>
+            <button type="button" class="btn-mark-all" onclick="markAllNotificationsAsRead(event)" data-i18n="mark_all_read" style="font-size: 0.85rem;">Marcar leídas</button>
+          </div>
+          <div id="notifications-list-feed" class="notifications-list" style="gap: 12px;">
+            <!-- Rendered dynamically -->
+          </div>
         </div>
       </div>
     </main>
@@ -304,17 +341,14 @@
   <!-- POST CREATION MODAL -->
   <div id="post-modal" class="modal-overlay" onclick="closePostModalOnOverlay(event)">
     <div class="glass-panel modal-card">
-      <button class="btn-modal-close" type="button" onclick="closePostModal()"><i
-          class="fa-solid fa-xmark"></i></button>
+      <button class="btn-modal-close" type="button" onclick="closePostModal()"><i class="fa-solid fa-xmark"></i></button>
       <h3 class="modal-title" data-i18n="modal_title">Publicar un Nuevo Facto</h3>
-
+      
       <form id="post-form" onsubmit="handlePostFact(event)">
         <div class="form-group">
           <label for="fact-statement" data-i18n="label_statement">Declaración</label>
           <div class="input-wrapper">
-            <textarea id="fact-statement" class="input-control" style="resize: none; height: 100px; padding-left: 16px;"
-              maxlength="280" required data-i18n-placeholder="placeholder_statement"
-              placeholder="Escribe una declaración clara que represente algo que mucha gente cree que es verdad..."></textarea>
+            <textarea id="fact-statement" class="input-control" style="resize: none; height: 100px; padding-left: 16px;" maxlength="280" required data-i18n-placeholder="placeholder_statement" placeholder="Escribe una declaración clara que represente algo que mucha gente cree que es verdad..."></textarea>
           </div>
         </div>
 
@@ -323,8 +357,7 @@
         <div class="form-group">
           <label for="fact-category" data-i18n="label_category">Categoría</label>
           <div class="input-wrapper">
-            <select id="fact-category" class="input-control"
-              style="padding-left: 16px; appearance: none; background: hsla(224, 25%, 8%, 0.6);">
+            <select id="fact-category" class="input-control" style="padding-left: 16px; appearance: none; background: hsla(222, 24%, 12%, 0.6);">
               <option value="General" data-i18n="cat_general">General</option>
               <option value="Science" data-i18n="cat_science">Ciencia y Tecnología</option>
               <option value="History" data-i18n="cat_history">Historia</option>
@@ -335,10 +368,8 @@
         </div>
 
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closePostModal()"
-            data-i18n="btn_cancel">Cancelar</button>
-          <button type="submit" class="btn-primary" style="width: auto; padding: 10px 24px;"
-            data-i18n="btn_publish">Publicar</button>
+          <button type="button" class="btn-secondary" onclick="closePostModal()" data-i18n="btn_cancel">Cancelar</button>
+          <button type="submit" class="btn-primary" style="width: auto; padding: 10px 24px;" data-i18n="btn_publish">Publicar</button>
         </div>
       </form>
     </div>
@@ -347,21 +378,18 @@
   <!-- EDIT PROFILE MODAL -->
   <div id="edit-profile-modal" class="modal-overlay" onclick="closeEditProfileModalOnOverlay(event)">
     <div class="glass-panel modal-card">
-      <button class="btn-modal-close" type="button" onclick="closeEditProfileModal()"><i
-          class="fa-solid fa-xmark"></i></button>
+      <button class="btn-modal-close" type="button" onclick="closeEditProfileModal()"><i class="fa-solid fa-xmark"></i></button>
       <h3 class="modal-title" data-i18n="edit_profile_modal_title">Editar Perfil</h3>
-
+      
       <form id="edit-profile-form" onsubmit="handleSaveProfile(event)">
         <!-- Avatar Preview and Upload -->
         <div class="form-group" style="text-align: center; margin-bottom: 25px;">
           <div id="avatar-edit-preview-container" style="display: flex; justify-content: center; margin-bottom: 12px;">
             <!-- Render avatar preview dynamically -->
           </div>
-          <label class="btn-secondary"
-            style="display: inline-block; cursor: pointer; padding: 8px 16px; font-size: 0.85rem;">
+          <label class="btn-secondary" style="display: inline-block; cursor: pointer; padding: 8px 16px; font-size: 0.85rem;">
             <i class="fa-solid fa-camera"></i> <span data-i18n="upload_avatar_btn">Subir Imagen</span>
-            <input type="file" id="edit-avatar-file" accept="image/*" style="display: none;"
-              onchange="handleAvatarFileChange(event)">
+            <input type="file" id="edit-avatar-file" accept="image/*" style="display: none;" onchange="handleAvatarFileChange(event)">
           </label>
         </div>
 
@@ -375,16 +403,13 @@
         <div class="form-group">
           <label for="edit-bio" data-i18n="bio_label">Biografía</label>
           <div class="input-wrapper">
-            <textarea id="edit-bio" class="input-control" style="resize: none; height: 80px; padding-left: 16px;"
-              maxlength="160" placeholder="Escribe algo sobre ti..."></textarea>
+            <textarea id="edit-bio" class="input-control" style="resize: none; height: 80px; padding-left: 16px;" maxlength="160" placeholder="Escribe algo sobre ti..."></textarea>
           </div>
         </div>
 
         <div class="modal-actions">
-          <button type="button" class="btn-secondary" onclick="closeEditProfileModal()"
-            data-i18n="btn_cancel">Cancelar</button>
-          <button type="submit" class="btn-primary" style="width: auto; padding: 10px 24px;"
-            data-i18n="btn_save">Guardar</button>
+          <button type="button" class="btn-secondary" onclick="closeEditProfileModal()" data-i18n="btn_cancel">Cancelar</button>
+          <button type="submit" class="btn-primary" style="width: auto; padding: 10px 24px;" data-i18n="btn_save">Guardar</button>
         </div>
       </form>
     </div>
@@ -405,12 +430,11 @@
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>
-    <button type="button" class="bottom-nav-item" id="bottom-nav-interactions" onclick="switchFeedTab('interactions')">
-      <div class="bottom-nav-icon-wrapper">
-        <i class="fa-solid fa-circle-nodes"></i>
-        <span id="bottom-notification-badge" class="notification-badge hidden">0</span>
-      </div>
-      <span data-i18n="nav_interactions">Interacciones</span>
+    <button type="button" class="bottom-nav-item" id="bottom-nav-notifications" onclick="switchFeedTab('notifications')" style="position: relative;">
+      <i class="fa-regular fa-bell"></i>
+      <span data-i18n="notifications_title">Notificaciones</span>
+      <!-- Mini Badge on Mobile Bell -->
+      <span id="notification-badge-mobile" class="notification-badge hidden" style="top: 2px; right: calc(50% - 18px); position: absolute;">0</span>
     </button>
     <button type="button" class="bottom-nav-item" id="bottom-nav-profile" onclick="switchFeedTab('profile')">
       <i class="fa-regular fa-user"></i>
@@ -421,27 +445,22 @@
   <!-- OTHER USER PROFILE MODAL -->
   <div id="user-profile-modal" class="modal-overlay" onclick="closeUserProfileModalOnOverlay(event)">
     <div class="glass-panel modal-card" style="max-width: 650px;">
-      <button class="btn-modal-close" type="button" onclick="closeUserProfileModal()"><i
-          class="fa-solid fa-xmark"></i></button>
-
+      <button class="btn-modal-close" type="button" onclick="closeUserProfileModal()"><i class="fa-solid fa-xmark"></i></button>
+      
       <div class="profile-header-modal" style="display: flex; gap: 20px; align-items: center; margin-bottom: 25px;">
         <div id="modal-user-avatar" style="flex-shrink: 0;"></div>
         <div style="flex: 1; min-width: 0;">
           <h3 id="modal-user-display-name" class="profile-name" style="margin-bottom: 2px;">Nombre</h3>
           <p id="modal-user-handle" class="profile-username" style="margin-bottom: 10px;">@username</p>
           <div style="display: flex; gap: 15px; align-items: center;">
-            <button id="btn-follow-user" type="button" class="btn-primary"
-              style="width: auto; padding: 6px 16px; font-size: 0.85rem;" onclick="toggleFollowUser()">Seguir</button>
-            <span id="modal-user-followers-count"
-              style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">0 seguidores</span>
+            <button id="btn-follow-user" type="button" class="btn-primary" style="width: auto; padding: 6px 16px; font-size: 0.85rem;" onclick="toggleFollowUser()">Seguir</button>
+            <span id="modal-user-followers-count" style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">0 seguidores</span>
           </div>
         </div>
       </div>
-
-      <div id="modal-user-bio" class="profile-bio"
-        style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: hsla(224, 25%, 8%, 0.2); font-style: italic;">
-      </div>
-
+      
+      <div id="modal-user-bio" class="profile-bio" style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-surface); font-style: italic;"></div>
+      
       <div class="trust-meter" style="margin-bottom: 25px;">
         <div class="trust-score-label" data-i18n="trust_label">Reputación de Confianza</div>
         <div class="trust-score-value" id="modal-user-trust" style="font-size: 1.5rem;">50.00</div>
@@ -450,12 +469,100 @@
         </div>
       </div>
 
-      <h4 style="font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 15px;"
-        data-i18n="user_facts_title">Publicaciones</h4>
-      <div id="modal-user-facts"
-        style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 5px;">
+      <h4 style="font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 15px;" data-i18n="user_facts_title">Publicaciones</h4>
+      <div id="modal-user-facts" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 5px;">
         <!-- Rendered dynamically -->
       </div>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL FOR GUESTS -->
+  <div id="auth-modal" class="modal-overlay" onclick="closeAuthModalOnOverlay(event)">
+    <div class="glass-panel modal-card" style="max-width: 440px; padding: 30px;">
+      <button class="btn-modal-close" type="button" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="auth-header" style="margin-bottom: 25px;">
+        <h1 class="brand-logo" style="font-size: 2rem; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <img src="factos_logo.png" alt="Factos Logo" style="height: 36px; width: 36px; border-radius: 8px; object-fit: cover;" />
+          <span style="background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Factos</span>
+        </h1>
+        <p class="auth-subtitle" style="font-size: 0.85rem;" data-i18n="brand_subtitle">Verifica las creencias que dan forma al mundo</p>
+      </div>
+
+      <!-- Toggle Auth Option inside Modal -->
+      <div class="auth-toggle-container" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; gap: 10px;">
+        <button type="button" id="modal-auth-toggle-btn" class="btn-secondary" style="width: auto; padding: 6px 20px; font-size: 0.8rem;" onclick="toggleModalAuthMode()">
+          Registrarse
+        </button>
+        <div class="auth-divider" style="display: flex; align-items: center; width: 100%; color: var(--text-muted); font-size: 0.8rem; gap: 8px;">
+          <span style="flex: 1; height: 1px; background: var(--border-color);"></span>
+          <span id="modal-auth-divider-text">o inicia sesión</span>
+          <span style="flex: 1; height: 1px; background: var(--border-color);"></span>
+        </div>
+      </div>
+
+      <!-- Modal Auth Form -->
+      <form id="modal-auth-form" onsubmit="handleModalAuthSubmit(event)">
+        <!-- Signup Fields (Display Name & Username) -->
+        <div id="modal-signup-fields" class="hidden">
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="modal-reg-name" style="font-size: 0.8rem; margin-bottom: 4px;" data-i18n="reg_name_label">Nombre para Mostrar</label>
+            <div class="input-wrapper">
+              <input type="text" id="modal-reg-name" class="input-control" style="padding: 10px 12px 10px 36px; font-size: 0.9rem;" data-i18n-placeholder="reg_name_placeholder" placeholder="Juan Pérez">
+              <i class="fa-regular fa-user" style="left: 12px;"></i>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="modal-reg-username" style="font-size: 0.8rem; margin-bottom: 4px;" data-i18n="reg_username_label">Nombre de Usuario</label>
+            <div class="input-wrapper">
+              <input type="text" id="modal-reg-username" class="input-control" style="padding: 10px 12px 10px 36px; font-size: 0.9rem;" data-i18n-placeholder="reg_username_placeholder" placeholder="juanperez">
+              <i class="fa-solid fa-at" style="left: 12px;"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label for="modal-auth-email" style="font-size: 0.8rem; margin-bottom: 4px;" data-i18n="email_label">Correo Electrónico</label>
+          <div class="input-wrapper">
+            <input type="email" id="modal-auth-email" class="input-control" style="padding: 10px 12px 10px 36px; font-size: 0.9rem;" required data-i18n-placeholder="email_placeholder" placeholder="nombre@dominio.com">
+            <i class="fa-regular fa-envelope" style="left: 12px;"></i>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 15px;">
+          <label for="modal-auth-password" style="font-size: 0.8rem; margin-bottom: 4px;" data-i18n="password_label">Contraseña</label>
+          <div class="input-wrapper">
+            <input type="password" id="modal-auth-password" class="input-control" style="padding: 10px 12px 10px 36px; font-size: 0.9rem;" required data-i18n-placeholder="password_placeholder" placeholder="••••••••">
+            <i class="fa-solid fa-lock" style="left: 12px;"></i>
+          </div>
+        </div>
+
+        <button type="submit" id="modal-auth-btn" class="btn-primary" style="padding: 10px; font-size: 0.9rem;" data-i18n="btn_login">Iniciar Sesión</button>
+
+        <button type="button" onclick="handleGoogleSignIn(event)" class="btn-secondary" style="width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; font-size: 0.9rem; font-weight: 600;">
+          <i class="fa-brands fa-google" style="color: #ea4335;"></i>
+          <span data-i18n="btn_google">Iniciar con Google</span>
+        </button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- USERNAME SETUP MODAL (For OAuth registrations) -->
+  <div id="username-setup-modal" class="modal-overlay">
+    <div class="glass-panel modal-card" style="max-width: 440px; padding: 30px; text-align: center;">
+      <h3 class="modal-title" style="margin-bottom: 10px;" data-i18n="username_setup_title">Configura tu Nombre de Usuario</h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;" data-i18n="username_setup_desc">Para completar tu registro, por favor elige un nombre de usuario único para tu cuenta de Factos.</p>
+      
+      <form id="username-setup-form" onsubmit="handleUsernameSetupSubmit(event)">
+        <div class="form-group" style="margin-bottom: 20px; text-align: left;">
+          <label for="setup-username" style="font-size: 0.8rem; margin-bottom: 4px;" data-i18n="reg_username_label">Nombre de Usuario</label>
+          <div class="input-wrapper">
+            <input type="text" id="setup-username" class="input-control" style="padding: 10px 12px 10px 36px; font-size: 0.9rem;" required data-i18n-placeholder="reg_username_placeholder" placeholder="juanperez">
+            <i class="fa-solid fa-at" style="left: 12px;"></i>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" style="padding: 10px; font-size: 0.9rem;" data-i18n="btn_save_continue">Guardar y Continuar</button>
+      </form>
     </div>
   </div>
 
@@ -466,8 +573,6 @@
   </div>
 
   <!-- JavaScript application file with cache buster -->
-  <script src="translations.js?v=4.3"></script>
-  <script src="app.js?v=4.3"></script>
+  <script src="app.js?v=3.6"></script>
 </body>
-
 </html>

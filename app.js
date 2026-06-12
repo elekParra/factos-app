@@ -1,27 +1,195 @@
+// Localization System Dictionary
+const translations = {
+  es: {
+    brand_subtitle: "Verifica las creencias que dan forma al mundo",
+    login_tab: "Iniciar Sesión",
+    signup_tab: "Registrarse",
+    reg_name_label: "Nombre para Mostrar",
+    reg_name_placeholder: "Juan Pérez",
+    reg_username_label: "Nombre de Usuario",
+    reg_username_placeholder: "juanperez",
+    email_label: "Correo Electrónico",
+    email_placeholder: "nombre@dominio.com",
+    password_label: "Contraseña",
+    password_placeholder: "••••••••",
+    btn_login: "Iniciar Sesión",
+    btn_signup: "Crear Cuenta",
+    footer_text: "Protegido por pautas de verificación descentralizadas.",
+    logout_title: "Cerrar Sesión",
+    trust_label: "Reputación de Confianza",
+    nav_recent: "Recientes",
+    nav_trending: "Tendencias",
+    feed_title_recent: "Factos Recientes",
+    feed_title_trending: "Tendencias Populares",
+    btn_post_trigger: "Publicar Facto",
+    modal_title: "Publicar un Nuevo Facto",
+    label_statement: "Declaración",
+    placeholder_statement: "Escribe una declaración clara que represente algo que mucha gente cree que es verdad...",
+    label_citation: "URL de la Fuente de Citación",
+    placeholder_citation: "https://ejemplo.com/fuente-creible",
+    label_category: "Categoría",
+    btn_cancel: "Cancelar",
+    btn_publish: "Publicar",
+    
+    // Toasts
+    toast_welcome: "¡Bienvenido de nuevo, {name}!",
+    toast_created: "¡Cuenta creada con éxito!",
+    toast_logout: "Sesión cerrada con éxito.",
+    toast_fact_published: "¡Facto publicado con éxito!",
+    toast_vote_updated: "¡Voto registrado!",
+    toast_comment_posted: "¡Comentario publicado!",
+    toast_comments: "Comentario publicado",
+    toast_err_url: "Por favor, proporciona una URL de citación HTTP/HTTPS válida.",
+    toast_err_statement: "La declaración es demasiado corta. Sé más descriptivo.",
+    toast_err_fields: "Por favor, completa todos los campos requeridos.",
+    toast_err_auth: "Email o contraseña incorrectos.",
+    
+    // Feed UI Elements
+    evidence_citation: "Evidencia de Citación",
+    agree: "De Acuerdo",
+    disagree: "En Desacuerdo",
+    comments_toggle_label: "{count} Comentarios",
+    comment_placeholder: "Escribe un argumento o pregunta...",
+    comment_btn: "Publicar",
+    no_comments: "No hay comentarios aún. Escribe un argumento constructivo.",
+    empty_feed: "No se han subido factos todavía. ¡Sé el primero en publicar una declaración verificada!",
+    
+    // Categories
+    cat_general: "General",
+    cat_science: "Ciencia y Tecnología",
+    cat_history: "Historia",
+    cat_geopolitics: "Geopolítica",
+    cat_health: "Salud y Medicina",
+    edit_profile_title: "Editar Perfil",
+    edit_profile_modal_title: "Editar Perfil",
+    upload_avatar_btn: "Subir Imagen",
+    bio_label: "Biografía",
+    btn_save: "Guardar",
+    toast_profile_updated: "¡Perfil actualizado con éxito!",
+
+    // New features translation keys
+    search_placeholder: "Buscar factos...",
+    notifications_title: "Notificaciones",
+    mark_all_read: "Marcar leídas",
+    no_notifications: "No tienes notificaciones",
+    user_facts_title: "Publicaciones",
+    profile_tab_title: "Mi Perfil",
+    my_posts_tab: "Mis Publicaciones",
+    my_likes_tab: "Mis Me Gusta",
+    shared_fact_notice: "Viendo un facto compartido directo",
+    btn_view_all: "Ver todo el feed",
+    follow: "Seguir",
+    following: "Siguiendo",
+    btn_google: "Iniciar con Google",
+    guest_cta_title: "¿Eres nuevo en Factos?",
+    guest_cta_desc: "Únete para poder verificar declaraciones, votar consensus, seguir a otros y reportar contenido.",
+    guest_banner_title: "¿Quieres participar en Factos?",
+    guest_banner_desc: "Crea una cuenta o inicia sesión con Google para votar, comentar y publicar declaraciones.",
+    username_setup_title: "Configura tu Nombre de Usuario",
+    username_setup_desc: "Para completar tu registro, por favor elige un nombre de usuario único para tu cuenta de Factos.",
+    btn_save_continue: "Guardar y Continuar",
+    toast_username_taken: "Este nombre de usuario ya está en uso. Elige otro.",
+    toast_username_invalid: "El nombre de usuario contiene caracteres no válidos.",
+    change_theme_title: "Cambiar Tema"
+  },
+  en: {
+    brand_subtitle: "Verify the beliefs that shape the world",
+    login_tab: "Login",
+    signup_tab: "Sign Up",
+    reg_name_label: "Display Name",
+    reg_name_placeholder: "John Doe",
+    reg_username_label: "Username",
+    reg_username_placeholder: "johndoe",
+    email_label: "Email Address",
+    email_placeholder: "name@domain.com",
+    password_label: "Password",
+    password_placeholder: "••••••••",
+    btn_login: "Sign In",
+    btn_signup: "Create Account",
+    footer_text: "Protected by decentralized verification guidelines.",
+    logout_title: "Logout",
+    trust_label: "Trust Reputation",
+    nav_recent: "Recent Feed",
+    nav_trending: "Trending Hot",
+    feed_title_recent: "Recent Facts",
+    feed_title_trending: "Trending Hot",
+    btn_post_trigger: "Post Fact",
+    modal_title: "Publish a New Fact",
+    label_statement: "Statement",
+    placeholder_statement: "Write a clear statement representing something many people believe to be true...",
+    label_citation: "Source Citation URL",
+    placeholder_citation: "https://example.com/credible-source",
+    label_category: "Category",
+    btn_cancel: "Cancel",
+    btn_publish: "Publish",
+    
+    // Toasts
+    toast_welcome: "Welcome back, {name}!",
+    toast_created: "Account created successfully!",
+    toast_logout: "Logged out successfully.",
+    toast_fact_published: "Fact published successfully!",
+    toast_vote_updated: "Vote recorded!",
+    toast_comment_posted: "Comment posted!",
+    toast_comments: "Comment posted",
+    toast_err_url: "Please supply a valid HTTP/HTTPS citation URL.",
+    toast_err_statement: "Statement is too short. Be more descriptive.",
+    toast_err_fields: "Please fill in all required fields.",
+    toast_err_auth: "Invalid email or password.",
+    
+    // Feed UI Elements
+    evidence_citation: "Evidence Citation",
+    agree: "Agree",
+    disagree: "Disagree",
+    comments_toggle_label: "{count} Comments",
+    comment_placeholder: "Type an argument or query...",
+    comment_btn: "Post",
+    no_comments: "No comments yet. Write a constructive argument.",
+    empty_feed: "No facts uploaded yet. Be the first to publish a verified statement!",
+    
+    // Categories
+    cat_general: "General",
+    cat_science: "Science & Tech",
+    cat_history: "History",
+    cat_geopolitics: "Geopolitics",
+    cat_health: "Health & Medicine",
+    edit_profile_title: "Edit Profile",
+    edit_profile_modal_title: "Edit Profile",
+    upload_avatar_btn: "Upload Image",
+    bio_label: "Biography",
+    btn_save: "Save",
+    toast_profile_updated: "Profile updated successfully!",
+ 
+    // New features translation keys
+    search_placeholder: "Search facts...",
+    notifications_title: "Notifications",
+    mark_all_read: "Mark all read",
+    no_notifications: "No notifications",
+    user_facts_title: "Posts",
+    profile_tab_title: "My Profile",
+    my_posts_tab: "My Posts",
+    my_likes_tab: "My Likes",
+    shared_fact_notice: "Viewing a shared direct fact",
+    btn_view_all: "View all feed",
+    follow: "Follow",
+    following: "Following",
+    btn_google: "Sign in with Google",
+    guest_cta_title: "New to Factos?",
+    guest_cta_desc: "Join to verify statements, vote consensus, follow creators, and report content.",
+    guest_banner_title: "Want to participate in Factos?",
+    guest_banner_desc: "Create an account or sign in with Google to vote, comment, and post statements.",
+    username_setup_title: "Set Your Username",
+    username_setup_desc: "To complete your registration, please choose a unique username for your Factos account.",
+    btn_save_continue: "Save & Continue",
+    toast_username_taken: "This username is already taken. Please choose another.",
+    toast_username_invalid: "Username contains invalid characters.",
+    change_theme_title: "Change Theme"
+  }
+};
+
 // Global application state
 let currentLang = localStorage.getItem('factos_lang') || 'es';
-let currentTheme = localStorage.getItem('factos_theme') || 'purple';
-
-function applyTheme() {
-  document.body.classList.remove('theme-blue', 'theme-sunset');
-  if (currentTheme === 'blue') {
-    document.body.classList.add('theme-blue');
-  } else if (currentTheme === 'sunset') {
-    document.body.classList.add('theme-sunset');
-  }
-}
-applyTheme();
-
-function requireAuth() {
-  if (!window.currentUser) {
-    showToast(currentLang === 'es' ? "Debes iniciar sesión para realizar esta acción" : "You must log in to perform this action", true);
-    setTimeout(() => {
-      switchToAuthView();
-    }, 1500);
-    return false;
-  }
-  return true;
-}
+let currentTheme = localStorage.getItem('factos_theme') || 'space-cyber';
+document.documentElement.className = `theme-${currentTheme}`;
 
 let currentFeedTab = 'recent'; // 'recent' or 'trending'
 let currentAuthMode = 'login'; // 'login' or 'signup'
@@ -29,21 +197,8 @@ let searchQuery = '';
 let currentSharedFactId = null;
 let currentProfileSubTab = 'posts';
 let selectedProfileId = null;
-window.currentFeedRequestId = window.currentFeedRequestId || 0;
-window.currentProfileFeedRequestId = window.currentProfileFeedRequestId || 0;
-const topFactCache = {};
-
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+let feedRenderGeneration = 0;
+let profileRenderGeneration = 0;
 
 // Supabase configuration parameters (puedes dejarlos en blanco aquí; la App te los pedirá en pantalla si faltan)
 let SUPABASE_URL = "https://sjavtotrtmuwltlhship.supabase.co";
@@ -62,55 +217,54 @@ function initSupabase() {
 }
 
 // App bootstrapping on DOM Load
-if (window.factosAppLoaded) {
-  console.warn("Factos app.js already loaded. Skipping listener registration.");
-} else {
-  window.factosAppLoaded = true;
-  document.addEventListener('DOMContentLoaded', async () => {
-    console.warn("Factos DOMContentLoaded listener executing.");
-    const isConnected = initSupabase();
-    if (!isConnected) {
-      switchToConfigView();
-    } else {
-      // Parse deep link shared fact
-      const urlParams = new URLSearchParams(window.location.search);
-      const factParam = urlParams.get('fact');
-      if (factParam) {
-        currentSharedFactId = factParam;
-        const banner = document.getElementById('shared-fact-banner');
-        if (banner) banner.classList.remove('hidden');
-      }
+document.addEventListener('DOMContentLoaded', async () => {
+  // Sync theme toggle buttons
+  changeTheme(currentTheme);
 
-      // Check for active session
-      try {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        if (session) {
-          // Fetch public profile details
-          const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
-          if (profile) {
-            window.currentUser = profile;
-            sessionStorage.setItem('factos_session', JSON.stringify(profile));
-            switchToAppView();
-          } else {
-            window.currentUser = null;
-            switchToAppView();
+  const isConnected = initSupabase();
+  if (!isConnected) {
+    switchToConfigView();
+    applyTranslations();
+  } else {
+    // Parse deep link shared fact
+    const urlParams = new URLSearchParams(window.location.search);
+    const factParam = urlParams.get('fact');
+    if (factParam) {
+      currentSharedFactId = factParam;
+      const banner = document.getElementById('shared-fact-banner');
+      if (banner) banner.classList.remove('hidden');
+    }
+    
+    // Check for active session
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        // Fetch public profile details
+        const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
+        if (profile) {
+          window.currentUser = profile;
+          sessionStorage.setItem('factos_session', JSON.stringify(profile));
+          
+          // Check if username setup is needed (e.g. OAuth signup without username chosen)
+          if (!session.user.user_metadata || !session.user.user_metadata.username_setup_completed) {
+            setTimeout(() => {
+              openUsernameSetupModal();
+            }, 100);
           }
         } else {
           window.currentUser = null;
-          switchToAppView();
         }
-      } catch (e) {
+      } else {
         window.currentUser = null;
-        switchToAppView();
       }
+    } catch(e) {
+      window.currentUser = null;
     }
-
-    // Apply initial translations only if not already logged in
-    if (!window.currentUser) {
-      applyTranslations();
-    }
-  });
-}
+    
+    // Always switch to app view (guests can browse now!)
+    switchToAppView();
+  }
+});
 
 // View states switches
 function switchToConfigView() {
@@ -130,12 +284,14 @@ function switchToAppView() {
   document.getElementById('config-screen').classList.add('hidden');
   document.getElementById('auth-screen').classList.add('hidden');
   document.getElementById('app-screen').classList.remove('hidden');
-
+  
   updateUserProfileUI();
   applyTranslations(); // renders feed with appropriate localization keys
-
+  
   // Initial notifications fetch
-  loadNotifications();
+  if (window.currentUser) {
+    loadNotifications();
+  }
 }
 
 // Handles saving Supabase configuration from screen
@@ -143,19 +299,19 @@ function handleSaveConfig(event) {
   event.preventDefault();
   const url = document.getElementById('config-url').value.trim();
   const key = document.getElementById('config-key').value.trim();
-
+  
   try {
     new URL(url);
     localStorage.setItem('factos_supabase_url', url);
     localStorage.setItem('factos_supabase_key', key);
-
+    
     if (initSupabase()) {
       showToast("Conexión con Supabase establecida!");
       switchToAuthView();
     } else {
       showToast("Error al inicializar cliente. Revisa tus claves.", true);
     }
-  } catch (e) {
+  } catch(e) {
     showToast("Por favor, introduce una URL de proyecto válida.", true);
   }
 }
@@ -167,9 +323,45 @@ function changeLanguage(lang) {
   applyTranslations();
 }
 
+// Theme trigger switch
+function changeTheme(theme) {
+  currentTheme = theme;
+  localStorage.setItem('factos_theme', theme);
+  document.documentElement.className = `theme-${theme}`;
+  
+  // Sync all theme toggle buttons
+  const themeIcons = {
+    'space-cyber': '🌌',
+    'deep-oceanic': '🌊',
+    'nordic-forest': '🌲'
+  };
+  const themeNames = {
+    'space-cyber': { es: 'Space Cyber', en: 'Space Cyber' },
+    'deep-oceanic': { es: 'Deep Oceanic', en: 'Deep Oceanic' },
+    'nordic-forest': { es: 'Nordic Forest', en: 'Nordic Forest' }
+  };
+  
+  const icon = themeIcons[theme] || '🌌';
+  const name = themeNames[theme] ? themeNames[theme][currentLang] : 'Space Cyber';
+  
+  document.querySelectorAll('.theme-toggle-icon').forEach(el => {
+    el.textContent = icon;
+  });
+  document.querySelectorAll('.theme-toggle-text').forEach(el => {
+    el.textContent = name;
+  });
+}
+
+function toggleThemeNext() {
+  const themesList = ['space-cyber', 'deep-oceanic', 'nordic-forest'];
+  let nextIndex = (themesList.indexOf(currentTheme) + 1) % themesList.length;
+  if (nextIndex === -1) nextIndex = 0;
+  changeTheme(themesList[nextIndex]);
+}
+
 function applyTranslations() {
   const dict = translations[currentLang];
-
+  
   // 1. Text tags
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
@@ -206,6 +398,36 @@ function applyTranslations() {
   if (authBtn) {
     authBtn.textContent = currentAuthMode === 'login' ? dict.btn_login : dict.btn_signup;
   }
+  const toggleBtn = document.getElementById('auth-toggle-btn');
+  if (toggleBtn) {
+    toggleBtn.textContent = currentAuthMode === 'login' ? dict.signup_tab : dict.login_tab;
+  }
+  const dividerText = document.getElementById('auth-divider-text');
+  if (dividerText) {
+    if (currentAuthMode === 'login') {
+      dividerText.textContent = currentLang === 'es' ? 'o inicia sesión' : 'or sign in';
+    } else {
+      dividerText.textContent = currentLang === 'es' ? 'o crea tu cuenta' : 'or create account';
+    }
+  }
+  
+  // Modal auth triggers
+  const modalAuthBtn = document.getElementById('modal-auth-btn');
+  if (modalAuthBtn) {
+    modalAuthBtn.textContent = currentModalAuthMode === 'login' ? dict.btn_login : dict.btn_signup;
+  }
+  const modalToggleBtn = document.getElementById('modal-auth-toggle-btn');
+  if (modalToggleBtn) {
+    modalToggleBtn.textContent = currentModalAuthMode === 'login' ? dict.signup_tab : dict.login_tab;
+  }
+  const modalDividerText = document.getElementById('modal-auth-divider-text');
+  if (modalDividerText) {
+    if (currentModalAuthMode === 'login') {
+      modalDividerText.textContent = currentLang === 'es' ? 'o inicia sesión' : 'or sign in';
+    } else {
+      modalDividerText.textContent = currentLang === 'es' ? 'o crea tu cuenta' : 'or create account';
+    }
+  }
 
   // 5. Feed header title
   const feedTitle = document.getElementById('feed-header-title');
@@ -217,21 +439,26 @@ function applyTranslations() {
   document.querySelectorAll('.lang-select').forEach(select => {
     select.value = currentLang;
   });
-
+  
+  // Update theme toggle buttons with translated names
+  const themeNames = {
+    'space-cyber': { es: 'Space Cyber', en: 'Space Cyber' },
+    'deep-oceanic': { es: 'Deep Oceanic', en: 'Deep Oceanic' },
+    'nordic-forest': { es: 'Nordic Forest', en: 'Nordic Forest' }
+  };
+  const name = themeNames[currentTheme] ? themeNames[currentTheme][currentLang] : 'Space Cyber';
+  document.querySelectorAll('.theme-toggle-text').forEach(el => {
+    el.textContent = name;
+  });
+  
   // Re-render feed
-  if (currentFeedTab === 'recent' || currentFeedTab === 'trending') {
-    renderFeed();
-  } else if (currentFeedTab === 'profile') {
-    renderMyProfileView();
-  } else if (currentFeedTab === 'interactions') {
-    loadNotifications();
-  }
+  renderFeed();
 }
 
 // Helper to escape values and shield from XSS
 function escapeHTML(str) {
   if (!str) return '';
-  return str.replace(/[&<>'"]/g,
+  return str.replace(/[&<>'"]/g, 
     tag => ({
       '&': '&amp;',
       '<': '&lt;',
@@ -258,16 +485,16 @@ function showToast(messageKey, isError = false, replaceParam = null) {
   const toast = document.getElementById('toast-msg');
   const icon = document.getElementById('toast-icon');
   const text = document.getElementById('toast-text');
-
+  
   let rawText = translations[currentLang][messageKey] || messageKey;
   if (replaceParam) {
     rawText = rawText.replace('{name}', replaceParam);
   }
-
+  
   text.textContent = rawText;
   toast.className = `toast-msg show ${isError ? 'error' : 'success'}`;
   icon.className = `fa-solid ${isError ? 'fa-circle-exclamation' : 'fa-circle-check'}`;
-
+  
   setTimeout(() => {
     toast.classList.remove('show');
   }, 3000);
@@ -276,55 +503,61 @@ function showToast(messageKey, isError = false, replaceParam = null) {
 // Auth screen toggling
 function switchAuthTab(mode) {
   currentAuthMode = mode;
-  const loginTab = document.getElementById('tab-login');
-  const signupTab = document.getElementById('tab-signup');
   const signupFields = document.getElementById('signup-fields');
   const authBtn = document.getElementById('auth-btn');
+  const toggleBtn = document.getElementById('auth-toggle-btn');
+  const dividerText = document.getElementById('auth-divider-text');
   const dict = translations[currentLang];
-
+  
   document.getElementById('auth-form').reset();
-
+  
   if (mode === 'login') {
-    loginTab.classList.add('active');
-    signupTab.classList.remove('active');
-    signupFields.classList.add('hidden');
-    authBtn.textContent = dict.btn_login;
+    if (signupFields) signupFields.classList.add('hidden');
+    if (authBtn) authBtn.textContent = dict.btn_login;
+    if (toggleBtn) toggleBtn.textContent = dict.signup_tab;
+    if (dividerText) dividerText.textContent = currentLang === 'es' ? 'o inicia sesión' : 'or sign in';
   } else {
-    loginTab.classList.remove('active');
-    signupTab.classList.add('active');
-    signupFields.classList.remove('hidden');
-    authBtn.textContent = dict.btn_signup;
+    if (signupFields) signupFields.classList.remove('hidden');
+    if (authBtn) authBtn.textContent = dict.btn_signup;
+    if (toggleBtn) toggleBtn.textContent = dict.login_tab;
+    if (dividerText) dividerText.textContent = currentLang === 'es' ? 'o crea tu cuenta' : 'or create account';
   }
+}
+
+function toggleAuthMode() {
+  const nextMode = currentAuthMode === 'login' ? 'signup' : 'login';
+  switchAuthTab(nextMode);
 }
 
 // Handle Form Submission for Remote Sign In / Sign Up
 async function handleAuthSubmit(event) {
   event.preventDefault();
-
+  
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
-
+  
   try {
     if (currentAuthMode === 'signup') {
       const displayName = document.getElementById('reg-name').value.trim();
       const username = document.getElementById('reg-username').value.trim().toLowerCase().replace(/[^a-zA-Z0-9_]/g, '');
-
+      
       if (!displayName || !username) {
         throw new Error(currentLang === 'es' ? "Por favor completa todos los campos" : "Please fill in all fields");
       }
-
+      
       const { data, error } = await supabaseClient.auth.signUp({
         email,
         password,
         options: {
           data: {
             username: username,
-            display_name: displayName
+            display_name: displayName,
+            username_setup_completed: true
           }
         }
       });
       if (error) throw error;
-
+      
       showToast(currentLang === 'es' ? "¡Registro completado! Por favor, inicia sesión." : "Sign up successful! Please log in.");
       switchAuthTab('login');
     } else {
@@ -334,13 +567,13 @@ async function handleAuthSubmit(event) {
         password
       });
       if (error) throw error;
-
+      
       // Fetch public profile record
       const { data: profile, error: pe } = await supabaseClient.from('profiles').select('*').eq('id', data.user.id).single();
       if (pe || !profile) {
         throw new Error(currentLang === 'es' ? "Perfil público no encontrado en base de datos." : "Public profile not found in DB.");
       }
-
+      
       window.currentUser = profile;
       sessionStorage.setItem('factos_session', JSON.stringify(profile));
       showToast("toast_welcome", false, profile.display_name);
@@ -351,10 +584,29 @@ async function handleAuthSubmit(event) {
   }
 }
 
+async function handleGoogleSignIn(event) {
+  if (event) event.preventDefault();
+  if (!supabaseClient) {
+    showToast("Supabase no está inicializado", true);
+    return;
+  }
+  try {
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + window.location.pathname
+      }
+    });
+    if (error) throw error;
+  } catch (err) {
+    showToast(err.message, true);
+  }
+}
+
 async function logout() {
   try {
     await supabaseClient.auth.signOut();
-  } catch (e) { }
+  } catch(e) {}
   sessionStorage.removeItem('factos_session');
   window.currentUser = null;
   switchToAuthView();
@@ -363,120 +615,151 @@ async function logout() {
 
 // Dynamic Profile View Sync
 function updateUserProfileUI() {
-  const logoutBtn = document.querySelector('.btn-icon-logout');
+  const profileCard = document.getElementById('sidebar-profile-card');
+  const guestCard = document.getElementById('sidebar-guest-card');
+  const userActions = document.getElementById('header-user-actions');
+  const guestActions = document.getElementById('header-guest-actions');
+  const profileNav = document.getElementById('nav-profile');
+  const bottomProfileNav = document.getElementById('bottom-nav-profile');
+  const bellContainer = document.querySelector('.notification-bell-container');
+  const guestBanner = document.getElementById('guest-feed-banner');
+  
+  const notificationsNav = document.getElementById('nav-notifications');
+  const bottomNotificationsNav = document.getElementById('bottom-nav-notifications');
+  
   if (!window.currentUser) {
-    if (logoutBtn) {
-      logoutBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i>';
-      logoutBtn.title = currentLang === 'es' ? 'Iniciar Sesión' : 'Log In';
+    // Guest mode layout configuration
+    if (profileCard) profileCard.classList.add('hidden');
+    if (guestCard) guestCard.classList.remove('hidden');
+    if (userActions) userActions.classList.add('hidden');
+    if (guestActions) guestActions.classList.remove('hidden');
+    if (profileNav) profileNav.classList.add('hidden');
+    if (bottomProfileNav) bottomProfileNav.classList.add('hidden');
+    if (notificationsNav) notificationsNav.classList.add('hidden');
+    if (bottomNotificationsNav) bottomNotificationsNav.classList.add('hidden');
+    if (bellContainer) bellContainer.classList.add('hidden');
+    
+    if (guestBanner && !sessionStorage.getItem('factos_guest_banner_dismissed')) {
+      guestBanner.classList.remove('hidden');
     }
-    const displayNameEl = document.getElementById('user-display-name');
-    const trustMiniEl = document.getElementById('user-trust-mini');
-    const avatarMiniContainer = document.getElementById('user-avatar-mini-container');
-    if (displayNameEl) displayNameEl.textContent = currentLang === 'es' ? 'Invitado' : 'Guest';
-    if (trustMiniEl) trustMiniEl.textContent = '50.00';
-    if (avatarMiniContainer) avatarMiniContainer.innerHTML = '';
     return;
   }
-
-  if (logoutBtn) {
-    logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>';
-    logoutBtn.title = currentLang === 'es' ? 'Cerrar Sesión' : 'Log Out';
-  }
-
+  
+  // Logged in user configuration
+  if (profileCard) profileCard.classList.remove('hidden');
+  if (guestCard) guestCard.classList.add('hidden');
+  if (userActions) userActions.classList.remove('hidden');
+  if (guestActions) guestActions.classList.add('hidden');
+  if (profileNav) profileNav.classList.remove('hidden');
+  if (bottomProfileNav) bottomProfileNav.classList.remove('hidden');
+  if (notificationsNav) notificationsNav.classList.remove('hidden');
+  if (bottomNotificationsNav) bottomNotificationsNav.classList.remove('hidden');
+  if (bellContainer) bellContainer.classList.remove('hidden');
+  if (guestBanner) guestBanner.classList.add('hidden');
+  
   const nameElements = [
     document.getElementById('user-display-name'),
     document.getElementById('profile-display-name')
   ];
-  nameElements.forEach(el => el.textContent = window.currentUser.display_name);
-
-  document.getElementById('profile-handle').textContent = `@${window.currentUser.username}`;
-  document.getElementById('profile-bio').textContent = window.currentUser.bio || '';
-
+  nameElements.forEach(el => {
+    if (el) el.textContent = window.currentUser.display_name;
+  });
+  
+  const profileHandle = document.getElementById('profile-handle');
+  if (profileHandle) profileHandle.textContent = `@${window.currentUser.username}`;
+  
+  const profileBio = document.getElementById('profile-bio');
+  if (profileBio) profileBio.textContent = window.currentUser.bio || '';
+  
   const formattedScore = parseFloat(window.currentUser.trust_score || 50).toFixed(2);
-  document.getElementById('user-trust-mini').textContent = formattedScore;
-  document.getElementById('profile-trust').textContent = formattedScore;
-
-  document.getElementById('profile-avatar-container').innerHTML = getAvatarHTML(window.currentUser, 70);
-  document.getElementById('user-avatar-mini-container').innerHTML = getAvatarHTML(window.currentUser, 28);
-
-  document.getElementById('profile-trust-bar').style.width = `${window.currentUser.trust_score || 50}%`;
+  const userTrustMini = document.getElementById('user-trust-mini');
+  if (userTrustMini) userTrustMini.textContent = formattedScore;
+  
+  const profileTrust = document.getElementById('profile-trust');
+  if (profileTrust) profileTrust.textContent = formattedScore;
+  
+  const avatarContainer = document.getElementById('profile-avatar-container');
+  if (avatarContainer) avatarContainer.innerHTML = getAvatarHTML(window.currentUser, 70);
+  
+  const miniAvatarContainer = document.getElementById('user-avatar-mini-container');
+  if (miniAvatarContainer) miniAvatarContainer.innerHTML = getAvatarHTML(window.currentUser, 28);
+  
+  const trustBar = document.getElementById('profile-trust-bar');
+  if (trustBar) trustBar.style.width = `${window.currentUser.trust_score || 50}%`;
 }
 
 // Switch Feed categories
 function switchFeedTab(tab) {
-  if (tab === 'profile' || tab === 'interactions') {
-    if (!requireAuth()) return;
-  }
   currentFeedTab = tab;
-
+  
   const recentNav = document.getElementById('nav-recent');
   const trendingNav = document.getElementById('nav-trending');
+  const notificationsNav = document.getElementById('nav-notifications');
   const profileNav = document.getElementById('nav-profile');
-  const interactionsNav = document.getElementById('nav-interactions');
-
+  
   const bottomRecent = document.getElementById('bottom-nav-recent');
   const bottomTrending = document.getElementById('bottom-nav-trending');
+  const bottomNotifications = document.getElementById('bottom-nav-notifications');
   const bottomProfile = document.getElementById('bottom-nav-profile');
-  const bottomInteractions = document.getElementById('bottom-nav-interactions');
-
+  
   const feedTitle = document.getElementById('feed-header-title');
   const dict = translations[currentLang];
-
+  
   // Update active class on nav elements
-  [recentNav, trendingNav, profileNav, interactionsNav].forEach(el => el && el.classList.remove('active'));
-  [bottomRecent, bottomTrending, bottomProfile, bottomInteractions].forEach(el => el && el.classList.remove('active'));
-
+  [recentNav, trendingNav, notificationsNav, profileNav].forEach(el => el && el.classList.remove('active'));
+  [bottomRecent, bottomTrending, bottomNotifications, bottomProfile].forEach(el => el && el.classList.remove('active'));
+  
   const feedHeader = document.getElementById('feed-header-wrapper');
   const searchBar = document.getElementById('search-bar-container');
   const factsFeed = document.getElementById('facts-feed');
   const userProfileView = document.getElementById('user-profile-view');
-  const interactionsView = document.getElementById('interactions-view');
-
+  const notificationsView = document.getElementById('notifications-view');
+  
   if (tab === 'recent') {
     if (recentNav) recentNav.classList.add('active');
     if (bottomRecent) bottomRecent.classList.add('active');
     if (feedTitle) feedTitle.textContent = dict.feed_title_recent;
-
+    
     if (feedHeader) feedHeader.classList.remove('hidden');
     if (searchBar) searchBar.classList.remove('hidden');
     if (factsFeed) factsFeed.classList.remove('hidden');
     if (userProfileView) userProfileView.classList.add('hidden');
-    if (interactionsView) interactionsView.classList.add('hidden');
-
+    if (notificationsView) notificationsView.classList.add('hidden');
+    
     renderFeed();
   } else if (tab === 'trending') {
     if (trendingNav) trendingNav.classList.add('active');
     if (bottomTrending) bottomTrending.classList.add('active');
     if (feedTitle) feedTitle.textContent = dict.feed_title_trending;
-
+    
     if (feedHeader) feedHeader.classList.remove('hidden');
     if (searchBar) searchBar.classList.remove('hidden');
     if (factsFeed) factsFeed.classList.remove('hidden');
     if (userProfileView) userProfileView.classList.add('hidden');
-    if (interactionsView) interactionsView.classList.add('hidden');
-
+    if (notificationsView) notificationsView.classList.add('hidden');
+    
     renderFeed();
   } else if (tab === 'profile') {
     if (profileNav) profileNav.classList.add('active');
     if (bottomProfile) bottomProfile.classList.add('active');
-
+    
     if (feedHeader) feedHeader.classList.add('hidden');
     if (searchBar) searchBar.classList.add('hidden');
     if (factsFeed) factsFeed.classList.add('hidden');
     if (userProfileView) userProfileView.classList.remove('hidden');
-    if (interactionsView) interactionsView.classList.add('hidden');
-
+    if (notificationsView) notificationsView.classList.add('hidden');
+    
     renderMyProfileView();
-  } else if (tab === 'interactions') {
-    if (interactionsNav) interactionsNav.classList.add('active');
-    if (bottomInteractions) bottomInteractions.classList.add('active');
-
+  } else if (tab === 'notifications') {
+    if (notificationsNav) notificationsNav.classList.add('active');
+    if (bottomNotifications) bottomNotifications.classList.add('active');
+    
     if (feedHeader) feedHeader.classList.add('hidden');
     if (searchBar) searchBar.classList.add('hidden');
     if (factsFeed) factsFeed.classList.add('hidden');
     if (userProfileView) userProfileView.classList.add('hidden');
-    if (interactionsView) interactionsView.classList.remove('hidden');
-
+    if (notificationsView) notificationsView.classList.remove('hidden');
+    
     loadNotifications();
   }
 }
@@ -501,8 +784,9 @@ function formatRelativeTime(dateString) {
 
 // Fetch and render facts dynamically from Supabase
 async function renderFeed() {
-  const requestId = ++window.currentFeedRequestId;
-  console.warn(`renderFeed call initiated. requestId = ${requestId}, currentFeedRequestId = ${window.currentFeedRequestId}`);
+  feedRenderGeneration++;
+  const localGeneration = feedRenderGeneration;
+
   const feedContainer = document.getElementById('facts-feed');
   feedContainer.innerHTML = `
     <div style="text-align: center; padding: 40px; color: var(--text-muted);">
@@ -510,53 +794,45 @@ async function renderFeed() {
       <p>${currentLang === 'es' ? 'Descargando declaraciones...' : 'Fetching statements...'}</p>
     </div>
   `;
-
+  
   if (!supabaseClient) return;
-
+  
   try {
     // 1. Fetch facts with profiles join
     const { data: facts, error } = await supabaseClient
       .from('facts')
       .select('*, profiles!user_id(*)');
-
-    if (requestId !== window.currentFeedRequestId) {
-      console.warn(`renderFeed call #${requestId} aborted after facts fetch because currentFeedRequestId is ${window.currentFeedRequestId}`);
-      return;
-    }
+    
+    if (localGeneration !== feedRenderGeneration) return;
     if (error) throw error;
-
+    
     // 2. Fetch current user's votes
     let userVotes = [];
     if (window.currentUser) {
-      const { data: votesData, error: votesError } = await supabaseClient
+      const { data } = await supabaseClient
         .from('votes')
         .select('*')
         .eq('user_id', window.currentUser.id);
-      if (!votesError && votesData) {
-        userVotes = votesData;
-      }
+      
+      if (localGeneration !== feedRenderGeneration) return;
+      userVotes = data || [];
     }
-
-    if (requestId !== window.currentFeedRequestId) {
-      console.warn(`renderFeed call #${requestId} aborted after votes fetch because currentFeedRequestId is ${window.currentFeedRequestId}`);
-      return;
-    }
-
+    
     const dict = translations[currentLang];
-
+    
     // Filter by search query
     let filteredFacts = facts || [];
     if (searchQuery) {
-      filteredFacts = filteredFacts.filter(fact =>
+      filteredFacts = filteredFacts.filter(fact => 
         fact.statement.toLowerCase().includes(searchQuery)
       );
     }
-
+    
     // Filter by shared fact ID
     if (currentSharedFactId) {
       filteredFacts = filteredFacts.filter(fact => fact.id === currentSharedFactId);
     }
-
+    
     if (currentFeedTab === 'recent') {
       filteredFacts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } else {
@@ -564,13 +840,15 @@ async function renderFeed() {
       filteredFacts.sort((a, b) => {
         const getScore = (f) => {
           const totalActivity = f.agree_count + f.disagree_count + (f.comment_count * 1.5);
-          const ageHours = Math.max(0, (new Date() - new Date(f.created_at)) / (1000 * 60 * 60));
+          const ageHours = (new Date() - new Date(f.created_at)) / (1000 * 60 * 60);
           return totalActivity / Math.pow(ageHours + 2, 1.2);
         };
         return getScore(b) - getScore(a);
       });
     }
 
+    feedContainer.innerHTML = '';
+    
     if (filteredFacts.length === 0) {
       feedContainer.innerHTML = `
         <div class="glass-panel" style="padding: 40px; text-align: center; color: var(--text-muted);">
@@ -581,59 +859,36 @@ async function renderFeed() {
       return;
     }
 
-    // Render cards HTML in parallel
+    // Resolve card rendering HTML promises in parallel to resolve N+1 sequential await bottlenecks
     const cardPromises = filteredFacts.map(async (fact) => {
       const userVote = userVotes ? userVotes.find(v => v.fact_id === fact.id) : null;
       const cardHTML = await buildFactCardHTML(fact, userVote, dict);
       return { fact, cardHTML };
     });
-
+    
     const renderedCards = await Promise.all(cardPromises);
-
-    if (requestId !== window.currentFeedRequestId) {
-      console.warn(`renderFeed call #${requestId} aborted after card building because currentFeedRequestId is ${window.currentFeedRequestId}`);
-      return;
-    }
-
+    if (localGeneration !== feedRenderGeneration) return;
+    
     feedContainer.innerHTML = '';
-    console.warn(`renderFeed call #${requestId} cleared container. facts count to render: ${renderedCards.length}`);
-
-    if (currentFeedTab === 'trending') {
-      const syncCard = document.createElement('div');
-      syncCard.className = 'glass-panel trend-sync-card';
-      syncCard.innerHTML = `
-        <div class="trend-sync-title">
-          <i class="fa-solid fa-bolt trend-sync-icon"></i>
-          <span data-i18n="trend_sync_title">${currentLang === 'es' ? 'Tendencias Mundiales' : 'World Trends'}</span>
-        </div>
-        <p class="trend-sync-desc" data-i18n="trend_sync_desc">
-          ${currentLang === 'es' ? 'Genera automáticamente declaraciones reales basadas en los temas de debate actuales a nivel mundial.' : 'Automatically generate real statements based on current global debate topics.'}
-        </p>
-        <button id="btn-sync-trends" type="button" class="btn-primary btn-sync-trends" onclick="syncWorldTrends(event)">
-          <i class="fa-solid fa-rotate"></i> <span data-i18n="trend_sync_btn">${currentLang === 'es' ? 'Sincronizar y Crear Factos' : 'Sync and Create Facts'}</span>
-        </button>
-      `;
-      feedContainer.appendChild(syncCard);
-    }
-
     for (const { fact, cardHTML } of renderedCards) {
       const card = document.createElement('article');
       card.className = 'glass-panel fact-card';
       card.innerHTML = cardHTML;
       feedContainer.appendChild(card);
     }
-    setTimeout(animateConsensusBars, 50);
-    console.warn(`renderFeed call #${requestId} completed rendering successfully.`);
-  } catch (err) {
-    showToast(err.message, true);
+  } catch(err) {
+    if (localGeneration === feedRenderGeneration) {
+      showToast(err.message, true);
+    }
   }
 }
 
+const mostLikedFactsCache = {};
 // Fetch the user's highest rated fact
 async function getMostLikedFact(userId) {
   if (!supabaseClient) return null;
-  if (topFactCache[userId] !== undefined) {
-    return topFactCache[userId];
+  if (mostLikedFactsCache[userId] !== undefined) {
+    return mostLikedFactsCache[userId];
   }
   try {
     const { data } = await supabaseClient
@@ -642,11 +897,11 @@ async function getMostLikedFact(userId) {
       .eq('user_id', userId)
       .order('agree_count', { ascending: false })
       .limit(1);
-
+    
     const result = data && data.length > 0 ? data[0] : null;
-    topFactCache[userId] = result;
+    mostLikedFactsCache[userId] = result;
     return result;
-  } catch (e) {
+  } catch(e) {
     return null;
   }
 }
@@ -654,23 +909,23 @@ async function getMostLikedFact(userId) {
 // Compile comments asynchronously
 async function buildCommentsHTML(factId, showAll = false) {
   if (!supabaseClient) return '';
-
+  
   const dict = translations[currentLang];
-
+  
   try {
     const { data: allComments, error } = await supabaseClient
       .from('comments')
       .select('*, profiles!user_id(*)')
       .eq('fact_id', factId)
       .order('created_at', { ascending: true });
-
+    
     if (error || !allComments || allComments.length === 0) {
       return `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 10px;">${dict.no_comments}</p>`;
     }
 
     let commentsToShow = allComments;
     let showMoreBtnHTML = '';
-
+    
     if (!showAll && allComments.length > 5) {
       commentsToShow = allComments.slice(-5);
       const hiddenCount = allComments.length - 5;
@@ -684,7 +939,6 @@ async function buildCommentsHTML(factId, showAll = false) {
     const commentPromises = commentsToShow.map(async (comment) => {
       const author = comment.profiles || { display_name: 'System', username: 'system', trust_score: 50 };
       const topFact = await getMostLikedFact(comment.user_id);
-
       let topFactHTML = '';
       if (topFact) {
         const topFactText = topFact.statement;
@@ -693,7 +947,7 @@ async function buildCommentsHTML(factId, showAll = false) {
           <div class="top-fact-badge" style="font-size: 0.72rem; color: #f59e0b; display: flex; align-items: center; gap: 4px; margin-top: 1px;" title="${escapeHTML(topFactText)}">
             <i class="fa-solid fa-star" style="font-size: 0.6rem;"></i>
             <span style="font-style: italic; opacity: 0.95;">
-              ${currentLang === 'es' ? 'Facto popular' : 'Top Fact'}: "${escapeHTML(truncatedText)}" (${topFact.agree_count} 👍)
+              ${currentLang === 'es' ? 'Hecho popular' : 'Top Fact'}: "${escapeHTML(truncatedText)}" (${topFact.agree_count} 👍)
             </span>
           </div>
         `;
@@ -714,7 +968,7 @@ async function buildCommentsHTML(factId, showAll = false) {
       ` : '';
 
       return `
-        <div class="comment-item" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: hsla(224, 25%, 8%, 0.25);">
+        <div class="comment-item" style="display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-surface);">
           <div style="cursor: pointer; flex-shrink: 0;" onclick="openUserProfile(event, '${author.id}')">
             ${getAvatarHTML(author, 32)}
           </div>
@@ -738,11 +992,9 @@ async function buildCommentsHTML(factId, showAll = false) {
       `;
     });
 
-    const commentsHTMLArray = await Promise.all(commentPromises);
-    const commentsHTML = commentsHTMLArray.join('');
-
-    return showMoreBtnHTML + commentsHTML;
-  } catch (e) {
+    const commentHTMLs = await Promise.all(commentPromises);
+    return showMoreBtnHTML + commentHTMLs.join('');
+  } catch(e) {
     return `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; padding: 10px;">${dict.no_comments}</p>`;
   }
 }
@@ -764,7 +1016,10 @@ async function renderComments(factId) {
 }
 
 function openPostModal() {
-  if (!requireAuth()) return;
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
   document.getElementById('post-modal').classList.add('open');
 }
 
@@ -782,23 +1037,23 @@ function closePostModalOnOverlay(event) {
 // Publish Fact Handler (Supabase)
 async function handlePostFact(event) {
   event.preventDefault();
-
+  
   const submitBtn = event.target.querySelector('button[type="submit"]');
   if (submitBtn && submitBtn.disabled) return;
-
+  
   const statement = document.getElementById('fact-statement').value.trim();
   const category = document.getElementById('fact-category').value;
-
+  
   if (statement.length < 10) {
     showToast("toast_err_statement", true);
     return;
   }
-
+  
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.5';
   }
-
+  
   try {
     const { error } = await supabaseClient.from('facts').insert({
       user_id: window.currentUser.id,
@@ -806,13 +1061,12 @@ async function handlePostFact(event) {
       category
     });
     if (error) throw error;
-
+    
     // Reward points for publishing
     await adjustTrustScore(window.currentUser.id, 2.0);
-    delete topFactCache[window.currentUser.id];
     closePostModal();
     showToast("toast_fact_published");
-
+    
     // Refresh UI
     await refreshCurrentUserState();
     updateUserProfileUI();
@@ -831,28 +1085,31 @@ const voteLocks = {};
 
 async function handleVote(event, factId, type) {
   if (event) event.preventDefault();
-  if (!requireAuth()) return;
   if (!supabaseClient) return;
-
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
+  
   if (voteLocks[factId]) return; // ignore quick double taps
-
+  
   const agreeBtn = document.getElementById(`btn-agree-${factId}`);
   const disagreeBtn = document.getElementById(`btn-disagree-${factId}`);
   const wrapper = document.getElementById(`consensus-wrapper-${factId}`);
-
+  
   if (!agreeBtn || !disagreeBtn || !wrapper) return;
-
+  
   // Save previous UI state in case we need to rollback
   const prevAgree = parseInt(wrapper.getAttribute('data-agree')) || 0;
   const prevDisagree = parseInt(wrapper.getAttribute('data-disagree')) || 0;
   const prevHasAgreed = agreeBtn.classList.contains('voted');
   const prevHasDisagreed = disagreeBtn.classList.contains('voted');
-
+  
   // Calculate new state locally (Optimistic values)
   let newAgree = prevAgree;
   let newDisagree = prevDisagree;
   let newVoteType = null;
-
+  
   if (type === 'agree') {
     if (prevHasAgreed) {
       newAgree = Math.max(0, prevAgree - 1);
@@ -876,27 +1133,25 @@ async function handleVote(event, factId, type) {
       newVoteType = 'disagree';
     }
   }
-
+  
   // Function to apply DOM changes instantly
   function updateDOM(agreeCount, disagreeCount, voteType) {
     const totalVotes = agreeCount + disagreeCount;
     const agreePercent = totalVotes > 0 ? Math.round((agreeCount / totalVotes) * 100) : 50;
     const disagreePercent = totalVotes > 0 ? (100 - agreePercent) : 50;
-
+    
     const agreeLabel = document.getElementById(`agree-label-${factId}`);
     const disagreeLabel = document.getElementById(`disagree-label-${factId}`);
-    const fillBarAgree = document.getElementById(`consensus-fill-agree-${factId}`);
-    const fillBarDisagree = document.getElementById(`consensus-fill-disagree-${factId}`);
+    const fillBar = document.getElementById(`consensus-fill-${factId}`);
     const dict = translations[currentLang];
-
+    
     if (agreeLabel) agreeLabel.textContent = `${agreePercent}% ${dict.agree} (${agreeCount})`;
     if (disagreeLabel) disagreeLabel.textContent = `${disagreePercent}% ${dict.disagree} (${disagreeCount})`;
-    if (fillBarAgree) fillBarAgree.style.width = `${agreePercent}%`;
-    if (fillBarDisagree) fillBarDisagree.style.width = `${disagreePercent}%`;
-
+    if (fillBar) fillBar.style.width = `${agreePercent}%`;
+    
     wrapper.setAttribute('data-agree', agreeCount);
     wrapper.setAttribute('data-disagree', disagreeCount);
-
+    
     if (voteType === 'agree') {
       agreeBtn.classList.add('voted');
       disagreeBtn.classList.remove('voted');
@@ -908,14 +1163,14 @@ async function handleVote(event, factId, type) {
       disagreeBtn.classList.remove('voted');
     }
   }
-
+  
   // Apply optimistic UI changes immediately!
   updateDOM(newAgree, newDisagree, newVoteType);
   voteLocks[factId] = true;
-
+  
   try {
     const userId = window.currentUser.id;
-
+    
     // 1. Get current vote from Supabase
     const { data: existing, error: fe } = await supabaseClient
       .from('votes')
@@ -923,28 +1178,28 @@ async function handleVote(event, factId, type) {
       .eq('user_id', userId)
       .eq('fact_id', factId)
       .maybeSingle();
-
+    
     if (fe) throw fe;
-
+    
     // 2. Get latest counts from Supabase
     const { data: fact, error: fte } = await supabaseClient
       .from('facts')
       .select('agree_count, disagree_count, user_id')
       .eq('id', factId)
       .single();
-
+    
     if (fte) throw fte;
-
+    
     let dbAgree = fact.agree_count || 0;
     let dbDisagree = fact.disagree_count || 0;
     let reputationChange = 0;
-
+    
     if (existing) {
       if (existing.vote === type) {
         // Delete vote
         const { error: de } = await supabaseClient.from('votes').delete().eq('user_id', userId).eq('fact_id', factId);
         if (de) throw de;
-
+        
         if (type === 'agree') dbAgree = Math.max(0, dbAgree - 1);
         else dbDisagree = Math.max(0, dbDisagree - 1);
         reputationChange = -0.5;
@@ -952,7 +1207,7 @@ async function handleVote(event, factId, type) {
         // Swap vote
         const { error: ue } = await supabaseClient.from('votes').update({ vote: type }).eq('user_id', userId).eq('fact_id', factId);
         if (ue) throw ue;
-
+        
         if (type === 'agree') {
           dbAgree++;
           dbDisagree = Math.max(0, dbDisagree - 1);
@@ -965,35 +1220,39 @@ async function handleVote(event, factId, type) {
       // Insert new vote
       const { error: ie } = await supabaseClient.from('votes').insert({ user_id: userId, fact_id: factId, vote: type });
       if (ie) throw ie;
-
+      
       if (type === 'agree') dbAgree++;
       else dbDisagree++;
       reputationChange = 0.5;
     }
-
+    
     // Notify fact owner of agree vote (like)
     if (type === 'agree' && (!existing || existing.vote !== 'agree')) {
       await sendNotification(fact.user_id, 'like', factId);
     }
-
+    
+    // Notify fact owner of disagree vote (dislike)
+    if (type === 'disagree' && (!existing || existing.vote !== 'disagree')) {
+      await sendNotification(fact.user_id, 'dislike', factId);
+    }
+    
     // 3. Save updated counts
     const { error: ufe } = await supabaseClient
       .from('facts')
       .update({ agree_count: dbAgree, disagree_count: dbDisagree })
       .eq('id', factId);
-
+    
     if (ufe) throw ufe;
-
+    
     // 4. Adjust scores
     if (reputationChange !== 0) {
       await adjustTrustScore(userId, reputationChange);
     }
     await updatePosterReputation(fact.user_id, factId, dbAgree, dbDisagree);
-    delete topFactCache[fact.user_id];
-
+    
     // Sync UI with final db stats
     updateDOM(dbAgree, dbDisagree, newVoteType);
-
+    
     // Refresh user trust UI sidebar
     await refreshCurrentUserState();
     updateUserProfileUI();
@@ -1012,7 +1271,7 @@ function toggleComments(event, factId) {
   if (event) event.preventDefault();
   const section = document.getElementById(`comments-section-${factId}`);
   section.classList.toggle('open');
-
+  
   if (section.classList.contains('open')) {
     renderComments(factId);
   }
@@ -1021,21 +1280,24 @@ function toggleComments(event, factId) {
 // Add Comments (Supabase)
 async function submitComment(event, factId) {
   if (event) event.preventDefault();
-  if (!requireAuth()) return;
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
   const input = document.getElementById(`comment-input-${factId}`);
   const content = input.value.trim();
-
+  
   if (!content) return;
-
+  
   // Find submit button in the comment wrapper
   const btn = input.nextElementSibling;
   if (btn && btn.disabled) return;
-
+  
   if (btn) {
     btn.disabled = true;
     btn.style.opacity = '0.5';
   }
-
+  
   try {
     const { error: ce } = await supabaseClient.from('comments').insert({
       fact_id: factId,
@@ -1043,32 +1305,32 @@ async function submitComment(event, factId) {
       content: content
     });
     if (ce) throw ce;
-
+    
     // Fetch and increment fact comment count
     const { data: fact } = await supabaseClient.from('facts').select('comment_count, user_id').eq('id', factId).single();
     const newCount = (fact.comment_count || 0) + 1;
     await supabaseClient.from('facts').update({ comment_count: newCount }).eq('id', factId);
-
+    
     // Send comment notification
     await sendNotification(fact.user_id, 'comment', factId);
-
+    
     input.value = '';
     await adjustTrustScore(window.currentUser.id, 0.2);
-
+    
     // Refresh comments smoothly
     await renderComments(factId);
-
+    
     // Update badge counter directly
     const toggleBtn = document.getElementById(`comments-toggle-${factId}`);
     if (toggleBtn) {
       const dict = translations[currentLang];
       toggleBtn.innerHTML = `<i class="fa-regular fa-comment"></i> ${dict.comments_toggle_label.replace('{count}', newCount)}`;
     }
-
+    
     await refreshCurrentUserState();
     updateUserProfileUI();
     showToast("toast_comment_posted");
-  } catch (err) {
+  } catch(err) {
     showToast(err.message, true);
   } finally {
     if (btn) {
@@ -1081,23 +1343,23 @@ async function submitComment(event, factId) {
 // Admin/Author deletion handlers
 async function handleDeleteFact(event, factId) {
   if (event) event.preventDefault();
-  const confirmMsg = currentLang === 'es'
+  const confirmMsg = currentLang === 'es' 
     ? "¿Estás seguro de que deseas eliminar este facto? Esto eliminará todos sus votos y comentarios asociados permanentemente."
     : "Are you sure you want to delete this fact? This will permanently remove all associated votes and comments.";
-
+    
   if (!confirm(confirmMsg)) return;
-
+  
   try {
     const { error } = await supabaseClient.from('facts').delete().eq('id', factId);
     if (error) throw error;
-
+    
     showToast(currentLang === 'es' ? "¡Facto eliminado con éxito!" : "Fact deleted successfully!");
     if (currentFeedTab === 'profile') {
       renderMyProfileView();
     } else {
       renderFeed();
     }
-  } catch (err) {
+  } catch(err) {
     showToast(err.message, true);
   }
 }
@@ -1107,24 +1369,24 @@ async function handleDeleteComment(event, commentId, factId) {
   const confirmMsg = currentLang === 'es'
     ? "¿Estás seguro de que deseas eliminar este comentario?"
     : "Are you sure you want to delete this comment?";
-
+    
   if (!confirm(confirmMsg)) return;
-
+  
   try {
     // 1. Delete comment
     const { error } = await supabaseClient.from('comments').delete().eq('id', commentId);
     if (error) throw error;
-
+    
     // 2. Fetch and decrement fact comment count
     const { data: fact } = await supabaseClient.from('facts').select('comment_count').eq('id', factId).single();
     const newCount = Math.max(0, (fact.comment_count || 1) - 1);
     await supabaseClient.from('facts').update({ comment_count: newCount }).eq('id', factId);
-
+    
     showToast(currentLang === 'es' ? "¡Comentario eliminado!" : "Comment deleted!");
-
+    
     // Refresh comments UI smoothly
     await renderComments(factId);
-
+    
     // Update badge counter directly
     const toggleBtn = document.getElementById(`comments-toggle-${factId}`);
     if (toggleBtn) {
@@ -1144,7 +1406,7 @@ async function adjustTrustScore(userId, amount) {
       const newScore = parseFloat(Math.min(100, Math.max(0, (u.trust_score || 50) + amount)).toFixed(2));
       await supabaseClient.from('profiles').update({ trust_score: newScore }).eq('id', userId);
     }
-  } catch (e) { }
+  } catch(e) {}
 }
 
 async function updatePosterReputation(posterId, factId, agreeCount, disagreeCount) {
@@ -1167,19 +1429,18 @@ async function refreshCurrentUserState() {
       window.currentUser = profile;
       sessionStorage.setItem('factos_session', JSON.stringify(profile));
     }
-  } catch (e) { }
+  } catch(e) {}
 }
 
 // Profile Editing Modal triggers
 let tempAvatarUrl = null;
 
 function openEditProfileModal() {
-  if (!requireAuth()) return;
   tempAvatarUrl = window.currentUser.avatar_url || null;
   document.getElementById('edit-display-name').value = window.currentUser.display_name;
   document.getElementById('edit-bio').value = window.currentUser.bio || '';
   document.getElementById('avatar-edit-preview-container').innerHTML = getAvatarHTML(window.currentUser, 80);
-
+  
   document.getElementById('edit-profile-modal').classList.add('open');
   applyTranslations();
 }
@@ -1199,9 +1460,9 @@ function closeEditProfileModalOnOverlay(event) {
 function handleAvatarFileChange(event) {
   const file = event.target.files[0];
   if (!file) return;
-
+  
   const reader = new FileReader();
-  reader.onload = function (e) {
+  reader.onload = function(e) {
     tempAvatarUrl = e.target.result;
     const previewContainer = document.getElementById('avatar-edit-preview-container');
     previewContainer.innerHTML = `<img src="${escapeHTML(tempAvatarUrl)}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); display: block;" />`;
@@ -1212,27 +1473,27 @@ function handleAvatarFileChange(event) {
 // Save profile update (Supabase)
 async function handleSaveProfile(event) {
   event.preventDefault();
-
+  
   const displayName = document.getElementById('edit-display-name').value.trim();
   const bio = document.getElementById('edit-bio').value.trim();
-
+  
   if (!displayName) {
     showToast("toast_err_fields", true);
     return;
   }
-
+  
   try {
     const { error } = await supabaseClient.from('profiles').update({
       display_name: displayName,
       bio: bio,
       avatar_url: tempAvatarUrl
     }).eq('id', window.currentUser.id);
-
+    
     if (error) throw error;
-
+    
     closeEditProfileModal();
     showToast("toast_profile_updated");
-
+    
     await refreshCurrentUserState();
     updateUserProfileUI();
     if (currentFeedTab === 'profile') {
@@ -1254,11 +1515,11 @@ async function buildFactCardHTML(fact, userVote, dict) {
   const totalVotes = fact.agree_count + fact.disagree_count;
   const agreePercent = totalVotes > 0 ? Math.round((fact.agree_count / totalVotes) * 100) : 50;
   const disagreePercent = totalVotes > 0 ? (100 - agreePercent) : 50;
-
+  
   const statementText = fact.statement;
   const categoryKey = `cat_${fact.category.toLowerCase()}`;
   const categoryName = dict[categoryKey] || fact.category;
-
+  
   const commentsHTML = await buildCommentsHTML(fact.id, false);
 
   const deleteFactBtnHTML = window.currentUser && (window.currentUser.is_admin || fact.user_id === window.currentUser.id) ? `
@@ -1290,8 +1551,7 @@ async function buildFactCardHTML(fact, userVote, dict) {
         <span id="disagree-label-${fact.id}" class="consensus-disagree-label">${disagreePercent}% ${dict.disagree} (${fact.disagree_count})</span>
       </div>
       <div class="consensus-track">
-        <div id="consensus-fill-agree-${fact.id}" class="consensus-agree-fill" style="width: 0%" data-target-width="${agreePercent}"></div>
-        <div id="consensus-fill-disagree-${fact.id}" class="consensus-disagree-fill" style="width: 0%" data-target-width="${disagreePercent}"></div>
+        <div id="consensus-fill-${fact.id}" class="consensus-agree-fill" style="width: ${agreePercent}%"></div>
       </div>
       
       <div class="consensus-actions">
@@ -1332,50 +1592,50 @@ async function buildFactCardHTML(fact, userVote, dict) {
 
 async function renderMyProfileView() {
   if (!window.currentUser || !supabaseClient) return;
-
+  
   // Populate details
   document.getElementById('my-profile-avatar').innerHTML = getAvatarHTML(window.currentUser, 70);
   document.getElementById('my-profile-display-name').textContent = window.currentUser.display_name;
   document.getElementById('my-profile-handle').textContent = `@${window.currentUser.username}`;
   document.getElementById('my-profile-bio').textContent = window.currentUser.bio || '';
-
+  
   const formattedScore = parseFloat(window.currentUser.trust_score || 50).toFixed(2);
   document.getElementById('my-profile-trust').textContent = formattedScore;
   document.getElementById('my-profile-trust-bar').style.width = `${window.currentUser.trust_score || 50}%`;
-
+  
   // Get follow stats
   try {
     const { count: followersCount } = await supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('following_id', window.currentUser.id);
-
+      
     const { count: followingCount } = await supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('follower_id', window.currentUser.id);
-
+      
     document.getElementById('my-profile-followers-count').textContent = currentLang === 'es'
       ? `${followersCount || 0} seguidores`
       : `${followersCount || 0} followers`;
-
+      
     document.getElementById('my-profile-following-count').textContent = currentLang === 'es'
       ? `${followingCount || 0} siguiendo`
       : `${followingCount || 0} following`;
   } catch (e) {
     console.error("Error fetching follow counts:", e);
   }
-
+  
   // Render subtab (default: 'posts')
   renderMyProfileSubTabFeed();
 }
 
 function switchProfileSubTab(subTab) {
   currentProfileSubTab = subTab;
-
+  
   const postsTab = document.getElementById('tab-my-posts');
   const likesTab = document.getElementById('tab-my-likes');
-
+  
   if (subTab === 'posts') {
     postsTab.classList.add('active');
     likesTab.classList.remove('active');
@@ -1383,33 +1643,35 @@ function switchProfileSubTab(subTab) {
     postsTab.classList.remove('active');
     likesTab.classList.add('active');
   }
-
+  
   renderMyProfileSubTabFeed();
 }
 
 async function renderMyProfileSubTabFeed() {
-  const requestId = ++window.currentProfileFeedRequestId;
+  profileRenderGeneration++;
+  const localGeneration = profileRenderGeneration;
+
   const container = document.getElementById('profile-facts-feed');
   if (!container || !supabaseClient || !window.currentUser) return;
-
+  
   container.innerHTML = `
     <div style="text-align: center; padding: 30px; color: var(--text-muted);">
       <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.5rem; color: var(--primary); margin-bottom: 10px;"></i>
       <p>${currentLang === 'es' ? 'Cargando publicaciones...' : 'Loading publications...'}</p>
     </div>
   `;
-
+  
   try {
     let facts = [];
-
+    
     if (currentProfileSubTab === 'posts') {
       const { data, error } = await supabaseClient
         .from('facts')
         .select('*, profiles!user_id(*)')
         .eq('user_id', window.currentUser.id)
         .order('created_at', { ascending: false });
-
-      if (requestId !== window.currentProfileFeedRequestId) return;
+        
+      if (localGeneration !== profileRenderGeneration) return;
       if (error) throw error;
       facts = data || [];
     } else {
@@ -1419,23 +1681,24 @@ async function renderMyProfileSubTabFeed() {
         .select('fact_id, facts(*, profiles!user_id(*))')
         .eq('user_id', window.currentUser.id)
         .eq('vote', 'agree');
-
-      if (requestId !== window.currentProfileFeedRequestId) return;
+        
+      if (localGeneration !== profileRenderGeneration) return;
       if (error) throw error;
       facts = (data || []).map(v => v.facts).filter(Boolean);
       // Sort likes by created_at descending
       facts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     }
-
+    
     const { data: userVotes } = await supabaseClient
       .from('votes')
       .select('*')
       .eq('user_id', window.currentUser.id);
-
-    if (requestId !== window.currentProfileFeedRequestId) return;
-
+      
+    if (localGeneration !== profileRenderGeneration) return;
+      
+    container.innerHTML = '';
     const dict = translations[currentLang];
-
+    
     if (facts.length === 0) {
       container.innerHTML = `
         <div style="padding: 30px; text-align: center; color: var(--text-muted);">
@@ -1444,49 +1707,50 @@ async function renderMyProfileSubTabFeed() {
       `;
       return;
     }
-
-    // Render cards HTML in parallel
+    
     const cardPromises = facts.map(async (fact) => {
       const userVote = userVotes ? userVotes.find(v => v.fact_id === fact.id) : null;
       const cardHTML = await buildFactCardHTML(fact, userVote, dict);
       return { fact, cardHTML };
     });
-
+    
     const renderedCards = await Promise.all(cardPromises);
-
-    if (requestId !== window.currentProfileFeedRequestId) return;
-
+    if (localGeneration !== profileRenderGeneration) return;
+    
     container.innerHTML = '';
-
     for (const { fact, cardHTML } of renderedCards) {
       const card = document.createElement('article');
       card.className = 'glass-panel fact-card';
       card.innerHTML = cardHTML;
       container.appendChild(card);
     }
-    setTimeout(animateConsensusBars, 50);
   } catch (err) {
-    container.innerHTML = `<p style="color: var(--disagree-color); text-align: center; padding: 20px;">${err.message}</p>`;
+    if (localGeneration === profileRenderGeneration) {
+      container.innerHTML = `<p style="color: var(--disagree-color); text-align: center; padding: 20px;">${err.message}</p>`;
+    }
   }
 }
 
 async function openUserProfile(event, userId) {
   if (event) event.preventDefault();
   if (!supabaseClient) return;
-  if (!requireAuth()) return;
-
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
+  
   // If clicking on their own name, switch to my profile tab instead!
   if (userId === window.currentUser.id) {
     switchFeedTab('profile');
     closeUserProfileModal();
     return;
   }
-
+  
   selectedProfileId = userId;
-
+  
   const modal = document.getElementById('user-profile-modal');
   if (modal) modal.classList.add('open');
-
+  
   // Fetch user profile info, their facts and follows status
   try {
     const { data: profile, error } = await supabaseClient
@@ -1494,18 +1758,19 @@ async function openUserProfile(event, userId) {
       .select('*')
       .eq('id', userId)
       .single();
-
+      
+    if (selectedProfileId !== userId) return;
     if (error || !profile) throw new Error("User profile not found");
-
+    
     document.getElementById('modal-user-avatar').innerHTML = getAvatarHTML(profile, 70);
     document.getElementById('modal-user-display-name').textContent = profile.display_name;
     document.getElementById('modal-user-handle').textContent = `@${profile.username}`;
     document.getElementById('modal-user-bio').textContent = profile.bio || '';
-
+    
     const formattedScore = parseFloat(profile.trust_score || 50).toFixed(2);
     document.getElementById('modal-user-trust').textContent = formattedScore;
     document.getElementById('modal-user-trust-bar').style.width = `${profile.trust_score || 50}%`;
-
+    
     // Check if current user is following this user
     const { data: isFollowing } = await supabaseClient
       .from('follows')
@@ -1513,7 +1778,9 @@ async function openUserProfile(event, userId) {
       .eq('follower_id', window.currentUser.id)
       .eq('following_id', userId)
       .maybeSingle();
-
+      
+    if (selectedProfileId !== userId) return;
+       
     const followBtn = document.getElementById('btn-follow-user');
     const dict = translations[currentLang];
     if (isFollowing) {
@@ -1523,27 +1790,31 @@ async function openUserProfile(event, userId) {
       followBtn.textContent = dict.follow;
       followBtn.className = "btn-primary";
     }
-
+    
     // Get followers count
     const { count: followersCount } = await supabaseClient
       .from('follows')
       .select('*', { count: 'exact', head: true })
       .eq('following_id', userId);
-
+      
+    if (selectedProfileId !== userId) return;
+       
     document.getElementById('modal-user-followers-count').textContent = currentLang === 'es'
       ? `${followersCount || 0} seguidores`
       : `${followersCount || 0} followers`;
-
+      
     // Render their facts list in modal
     const { data: facts } = await supabaseClient
       .from('facts')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
-
+      
+    if (selectedProfileId !== userId) return;
+       
     const factsContainer = document.getElementById('modal-user-facts');
     factsContainer.innerHTML = '';
-
+    
     if (!facts || facts.length === 0) {
       factsContainer.innerHTML = `<p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px;">${currentLang === 'es' ? 'No hay publicaciones.' : 'No posts yet.'}</p>`;
     } else {
@@ -1552,7 +1823,7 @@ async function openUserProfile(event, userId) {
         item.style.padding = '10px';
         item.style.border = '1px solid var(--border-color)';
         item.style.borderRadius = 'var(--radius-sm)';
-        item.style.background = 'hsla(224, 25%, 8%, 0.2)';
+        item.style.background = 'var(--bg-surface)';
         item.style.cursor = 'pointer';
         item.onclick = () => {
           closeUserProfileModal();
@@ -1561,7 +1832,7 @@ async function openUserProfile(event, userId) {
           if (banner) banner.classList.remove('hidden');
           switchFeedTab('recent');
         };
-
+        
         item.innerHTML = `
           <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px;">
             <span>${fact.category}</span>
@@ -1576,9 +1847,11 @@ async function openUserProfile(event, userId) {
         factsContainer.appendChild(item);
       });
     }
-
+    
   } catch (err) {
-    showToast(err.message, true);
+    if (selectedProfileId === userId) {
+      showToast(err.message, true);
+    }
   }
 }
 
@@ -1595,13 +1868,16 @@ function closeUserProfileModalOnOverlay(event) {
 }
 
 async function toggleFollowUser() {
-  if (!requireAuth()) return;
   if (!supabaseClient || !selectedProfileId) return;
-
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
+  
   const followBtn = document.getElementById('btn-follow-user');
   const dict = translations[currentLang];
   const isFollowing = followBtn.classList.contains('btn-secondary') || followBtn.textContent === dict.following;
-
+  
   // Optimistic UI updates
   if (isFollowing) {
     followBtn.textContent = dict.follow;
@@ -1610,7 +1886,7 @@ async function toggleFollowUser() {
     followBtn.textContent = dict.following;
     followBtn.className = "btn-secondary";
   }
-
+  
   try {
     if (isFollowing) {
       // Unfollow
@@ -1619,9 +1895,9 @@ async function toggleFollowUser() {
         .delete()
         .eq('follower_id', window.currentUser.id)
         .eq('following_id', selectedProfileId);
-
+        
       if (error) throw error;
-
+      
       const countEl = document.getElementById('modal-user-followers-count');
       const curCount = parseInt(countEl.textContent) || 0;
       countEl.textContent = currentLang === 'es'
@@ -1635,11 +1911,11 @@ async function toggleFollowUser() {
           follower_id: window.currentUser.id,
           following_id: selectedProfileId
         });
-
+        
       if (error) throw error;
-
+      
       await sendNotification(selectedProfileId, 'follow', null);
-
+      
       const countEl = document.getElementById('modal-user-followers-count');
       const curCount = parseInt(countEl.textContent) || 0;
       countEl.textContent = currentLang === 'es'
@@ -1662,14 +1938,19 @@ async function toggleFollowUser() {
 async function sendNotification(receiverId, type, factId) {
   if (!supabaseClient || !window.currentUser || receiverId === window.currentUser.id) return;
   try {
-    await supabaseClient.from('notifications').insert({
+    const { error } = await supabaseClient.from('notifications').insert({
       receiver_id: receiverId,
       sender_id: window.currentUser.id,
       type,
       fact_id: factId
     });
+    if (error) {
+      console.error("Failed to send notification:", error);
+      showToast(error.message, true);
+    }
   } catch (e) {
     console.error("Failed to send notification:", e);
+    showToast(e.message, true);
   }
 }
 
@@ -1682,83 +1963,136 @@ async function loadNotifications() {
       .eq('receiver_id', window.currentUser.id)
       .order('created_at', { ascending: false })
       .limit(20);
-
+      
     if (error) throw error;
-
+    
     const unreadCount = list.filter(n => !n.read).length;
     updateUnreadNotificationsBadge(unreadCount);
-
+    
     const container = document.getElementById('notifications-list');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (!list || list.length === 0) {
-      container.innerHTML = `
-        <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 15px;" data-i18n="no_notifications">
-          ${translations[currentLang].no_notifications}
-        </p>
-      `;
-      return;
-    }
-
-    list.forEach(n => {
-      const senderName = n.sender ? escapeHTML(n.sender.display_name) : "Alguien";
-      const factText = n.fact ? escapeHTML(n.fact.statement) : "";
-      const truncatedFact = factText.length > 30 ? factText.substring(0, 30) + '...' : factText;
-
-      let text = "";
-      let iconClass = "";
-
-      if (n.type === 'like') {
-        text = currentLang === 'es'
-          ? `A <strong>${senderName}</strong> le gusta tu facto "${truncatedFact}"`
-          : `<strong>${senderName}</strong> liked your fact "${truncatedFact}"`;
-        iconClass = "fa-solid fa-thumbs-up text-agree";
-      } else if (n.type === 'comment') {
-        text = currentLang === 'es'
-          ? `<strong>${senderName}</strong> comentó en tu facto "${truncatedFact}"`
-          : `<strong>${senderName}</strong> commented on your fact "${truncatedFact}"`;
-        iconClass = "fa-solid fa-comment text-primary";
-      } else if (n.type === 'follow') {
-        text = currentLang === 'es'
-          ? `<strong>${senderName}</strong> comenzó a seguirte`
-          : `<strong>${senderName}</strong> started following you`;
-        iconClass = "fa-solid fa-user-plus text-secondary";
+    const containerFeed = document.getElementById('notifications-list-feed');
+    
+    const renderList = (c) => {
+      if (!c) return;
+      c.innerHTML = '';
+      
+      if (!list || list.length === 0) {
+        c.innerHTML = `
+          <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 15px;" data-i18n="no_notifications">
+            ${translations[currentLang].no_notifications}
+          </p>
+        `;
+        return;
       }
-
-      const item = document.createElement('div');
-      item.className = `notification-item ${n.read ? '' : 'unread'}`;
-      item.onclick = (e) => handleNotificationClick(e, n);
-
-      item.innerHTML = `
-        <div style="font-size: 1rem; margin-top: 2px;">
-          <i class="${iconClass}"></i>
-        </div>
-        <div class="notification-item-text">
-          <p>${text}</p>
-          <div class="notification-item-time">${formatRelativeTime(n.created_at)}</div>
-        </div>
-      `;
-      container.appendChild(item);
-    });
+      
+      list.forEach(n => {
+        const senderDisplayName = n.sender ? escapeHTML(n.sender.display_name) : "Alguien";
+        const senderUsername = n.sender ? escapeHTML(n.sender.username) : "usuario";
+        const factText = n.fact ? escapeHTML(n.fact.statement) : "";
+        const truncatedFact = factText.length > 40 ? factText.substring(0, 40) + '...' : factText;
+        
+        let text = "";
+        let iconHTML = "";
+        
+        if (n.type === 'like') {
+          text = currentLang === 'es'
+            ? `le dio me gusta a tu facto: <span style="font-style: italic; color: var(--text-secondary);">"${truncatedFact}"</span>`
+            : `liked your fact: <span style="font-style: italic; color: var(--text-secondary);">"${truncatedFact}"</span>`;
+          iconHTML = `<i class="fa-solid fa-thumbs-up" style="color: var(--agree-color); font-size: 0.65rem;"></i>`;
+        } else if (n.type === 'dislike') {
+          text = currentLang === 'es'
+            ? `no le gustó tu facto: <span style="font-style: italic; color: var(--text-secondary);">"${truncatedFact}"</span>`
+            : `disliked your fact: <span style="font-style: italic; color: var(--text-secondary);">"${truncatedFact}"</span>`;
+          iconHTML = `<i class="fa-solid fa-thumbs-down" style="color: var(--disagree-color); font-size: 0.65rem;"></i>`;
+        } else if (n.type === 'comment') {
+          text = currentLang === 'es'
+            ? `comentó en tu facto: <span style="font-style: italic; color: var(--text-secondary);">"${truncatedFact}"</span>`
+            : `commented on your fact: <span style="font-style: italic; color: var(--text-secondary);">"${truncatedFact}"</span>`;
+          iconHTML = `<i class="fa-solid fa-comment" style="color: var(--primary); font-size: 0.65rem;"></i>`;
+        } else if (n.type === 'follow') {
+          text = currentLang === 'es'
+            ? `comenzó a seguirte`
+            : `started following you`;
+          iconHTML = `<i class="fa-solid fa-user-plus" style="color: var(--secondary); font-size: 0.65rem;"></i>`;
+        }
+        
+        const avatarHTML = getAvatarHTML(n.sender, 36);
+        
+        const item = document.createElement('div');
+        item.className = `notification-item ${n.read ? '' : 'unread'}`;
+        item.style.display = 'flex';
+        item.style.gap = '12px';
+        item.style.alignItems = 'flex-start';
+        item.style.padding = '12px';
+        item.onclick = (e) => handleNotificationClick(e, n);
+        
+        item.innerHTML = `
+          <div style="flex-shrink: 0; position: relative;">
+            ${avatarHTML}
+            <div style="position: absolute; bottom: -4px; right: -4px; width: 18px; height: 18px; border-radius: 50%; background: var(--bg-surface-solid); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center;">
+              ${iconHTML}
+            </div>
+          </div>
+          <div class="notification-item-text" style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px;">
+            <p style="margin: 0; font-size: 0.85rem; line-height: 1.4; word-break: break-word; color: var(--text-primary);">
+              <strong>${senderDisplayName}</strong> <span style="color: var(--text-muted); font-size: 0.78rem;">@${senderUsername}</span> ${text}
+            </p>
+            <div class="notification-item-time" style="font-size: 0.72rem; color: var(--text-muted);">${formatRelativeTime(n.created_at)}</div>
+          </div>
+        `;
+        c.appendChild(item);
+      });
+    };
+    
+    renderList(container);
+    renderList(containerFeed);
   } catch (e) {
     console.error("Error loading notifications:", e);
+    showToast(e.message, true);
   }
 }
 
 function updateUnreadNotificationsBadge(count) {
-  const sidebarBadge = document.getElementById('sidebar-notification-badge');
-  const bottomBadge = document.getElementById('bottom-notification-badge');
-
-  [sidebarBadge, bottomBadge].forEach(badge => {
-    if (!badge) return;
+  const badge = document.getElementById('notification-badge');
+  const badgeMobile = document.getElementById('notification-badge-mobile');
+  
+  [badge, badgeMobile].forEach(el => {
+    if (!el) return;
     if (count > 0) {
-      badge.textContent = count;
-      badge.classList.remove('hidden');
+      el.textContent = count;
+      el.classList.remove('hidden');
     } else {
-      badge.classList.add('hidden');
+      el.classList.add('hidden');
     }
   });
+}
+
+function toggleNotificationsDropdown(event) {
+  if (event) event.stopPropagation();
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
+  const dropdown = document.getElementById('notifications-dropdown');
+  if (!dropdown) return;
+  
+  dropdown.classList.toggle('hidden');
+  
+  if (!dropdown.classList.contains('hidden')) {
+    loadNotifications();
+    document.addEventListener('click', closeNotificationsDropdownOnOutsideClick);
+  } else {
+    document.removeEventListener('click', closeNotificationsDropdownOnOutsideClick);
+  }
+}
+
+function closeNotificationsDropdownOnOutsideClick(event) {
+  const dropdown = document.getElementById('notifications-dropdown');
+  const bellBtn = document.querySelector('.btn-icon-bell');
+  if (dropdown && !dropdown.contains(event.target) && !bellBtn.contains(event.target)) {
+    dropdown.classList.add('hidden');
+    document.removeEventListener('click', closeNotificationsDropdownOnOutsideClick);
+  }
 }
 
 async function markAllNotificationsAsRead(event) {
@@ -1770,7 +2104,7 @@ async function markAllNotificationsAsRead(event) {
       .update({ read: true })
       .eq('receiver_id', window.currentUser.id)
       .eq('read', false);
-
+      
     if (error) throw error;
     loadNotifications();
   } catch (e) {
@@ -1781,21 +2115,22 @@ async function markAllNotificationsAsRead(event) {
 async function handleNotificationClick(event, n) {
   if (event) event.stopPropagation();
   if (!supabaseClient) return;
-
+  
   try {
     if (!n.read) {
       await supabaseClient
         .from('notifications')
         .update({ read: true })
         .eq('id', n.id);
-      
-      // Reload notifications list to update badges and items
-      loadNotifications();
     }
   } catch (e) {
     console.error(e);
   }
-
+  
+  const dropdown = document.getElementById('notifications-dropdown');
+  if (dropdown) dropdown.classList.add('hidden');
+  document.removeEventListener('click', closeNotificationsDropdownOnOutsideClick);
+  
   if (n.type === 'follow') {
     openUserProfile(null, n.sender_id);
   } else if (n.fact_id) {
@@ -1809,7 +2144,7 @@ async function handleNotificationClick(event, n) {
 function shareFact(event, factId) {
   if (event) event.preventDefault();
   const shareUrl = `${window.location.origin}${window.location.pathname}?fact=${factId}`;
-
+  
   navigator.clipboard.writeText(shareUrl).then(() => {
     showToast(currentLang === 'es' ? "¡Enlace copiado al portapapeles!" : "Link copied to clipboard!");
   }).catch(err => {
@@ -1820,28 +2155,31 @@ function shareFact(event, factId) {
 async function reportContent(event, factId, commentId) {
   if (event) event.preventDefault();
   if (!supabaseClient) return;
-  if (!requireAuth()) return;
-
+  if (!window.currentUser) {
+    openAuthModal();
+    return;
+  }
+  
   const defaultReason = currentLang === 'es' ? "Contenido inapropiado" : "Inappropriate content";
-  const promptMsg = currentLang === 'es'
-    ? "¿Por qué deseas reportar este contenido?"
+  const promptMsg = currentLang === 'es' 
+    ? "¿Por qué deseas reportar este contenido?" 
     : "Why do you want to report this content?";
-
+    
   const reason = prompt(promptMsg, defaultReason);
   if (reason === null) return;
-
+  
   try {
     const reportData = {
       reporter_id: window.currentUser.id,
       reason: reason || defaultReason
     };
-
+    
     if (factId) reportData.fact_id = factId;
     if (commentId) reportData.comment_id = commentId;
-
+    
     const { error } = await supabaseClient.from('reports').insert(reportData);
     if (error) throw error;
-
+    
     showToast(currentLang === 'es' ? "¡Reporte enviado!" : "Report submitted successfully!");
   } catch (err) {
     showToast(err.message, true);
@@ -1858,168 +2196,201 @@ function clearSharedFactFilter() {
   renderFeed();
 }
 
-const handleSearch = debounce((value) => {
+function handleSearch(value) {
   searchQuery = value.trim().toLowerCase();
   renderFeed();
-}, 200);
-
-function animateConsensusBars() {
-  document.querySelectorAll('.consensus-agree-fill').forEach(bar => {
-    const targetWidth = bar.getAttribute('data-target-width');
-    if (targetWidth !== null) {
-      bar.style.width = targetWidth + '%';
-    }
-  });
-  document.querySelectorAll('.consensus-disagree-fill').forEach(bar => {
-    const targetWidth = bar.getAttribute('data-target-width');
-    if (targetWidth !== null) {
-      bar.style.width = targetWidth + '%';
-    }
-  });
 }
 
-function cycleTheme() {
-  if (currentTheme === 'purple') {
-    currentTheme = 'blue';
-  } else if (currentTheme === 'blue') {
-    currentTheme = 'sunset';
+// ==========================================
+// GUEST AUTH MODAL HANDLERS
+// ==========================================
+
+let currentModalAuthMode = 'login';
+
+function switchModalAuth(mode) {
+  currentModalAuthMode = mode;
+  const signupFields = document.getElementById('modal-signup-fields');
+  const authBtn = document.getElementById('modal-auth-btn');
+  const toggleBtn = document.getElementById('modal-auth-toggle-btn');
+  const dividerText = document.getElementById('modal-auth-divider-text');
+  const dict = translations[currentLang];
+  
+  document.getElementById('modal-auth-form').reset();
+  
+  if (mode === 'login') {
+    if (signupFields) signupFields.classList.add('hidden');
+    if (authBtn) authBtn.textContent = dict.btn_login;
+    if (toggleBtn) toggleBtn.textContent = dict.signup_tab;
+    if (dividerText) dividerText.textContent = currentLang === 'es' ? 'o inicia sesión' : 'or sign in';
   } else {
-    currentTheme = 'purple';
+    if (signupFields) signupFields.classList.remove('hidden');
+    if (authBtn) authBtn.textContent = dict.btn_signup;
+    if (toggleBtn) toggleBtn.textContent = dict.login_tab;
+    if (dividerText) dividerText.textContent = currentLang === 'es' ? 'o crea tu cuenta' : 'or create account';
   }
-  localStorage.setItem('factos_theme', currentTheme);
-  applyTheme();
-  showToast(currentLang === 'es' ? "Tema de color cambiado" : "Color theme changed");
 }
 
-// Database of pre-compiled global trends in Spanish and English (Twitter/Reddit niche)
-const GLOBAL_TRENDS = [
-  {
-    category: "General",
-    es: "Pelirroja 10/10 > Morena 10/10.",
-    en: "Redhead 10/10 > Brunette 10/10."
-  },
-  {
-    category: "General",
-    es: "La pizza con piña es un crimen gastronómico y no debería ser legal.",
-    en: "Pineapple on pizza is a culinary crime and should be illegal."
-  },
-  {
-    category: "General",
-    es: "Programar en Light Mode es comportamiento psicópata y debería estar penado por la ley.",
-    en: "Programming in Light Mode is psychopath behavior and should be illegal."
-  },
-  {
-    category: "General",
-    es: "El Nesquik es infinitamente superior al ColaCao porque no deja grumos molestos.",
-    en: "Nesquik is infinitely superior to ColaCao because it leaves absolutely no annoying lumps."
-  },
-  {
-    category: "General",
-    es: "El café solo y sin azúcar es la única forma digna y adulta de tomar café.",
-    en: "Black, unsweetened coffee is the only respectable way to drink coffee."
-  },
-  {
-    category: "General",
-    es: "El doblaje español de Los Simpson es objetivamente superior a la versión original en inglés.",
-    en: "The Spanish dub of The Simpsons is objectively superior to the original English version."
-  },
-  {
-    category: "General",
-    es: "Los gatos son mejores compañeros de piso que los perros porque no invaden tu espacio personal.",
-    en: "Cats are better roommates than dogs because they don't invade your personal space."
-  },
-  {
-    category: "General",
-    es: "Echar la leche antes que los cereales en el tazón debería ser motivo de arresto inmediato.",
-    en: "Pouring milk before the cereal in the bowl should be grounds for immediate arrest."
-  },
-  {
-    category: "General",
-    es: "Los audios de WhatsApp de más de 2 minutos deberían cobrar tarifa de llamada telefónica.",
-    en: "WhatsApp voice notes longer than 2 minutes should be charged at long-distance call rates."
-  },
-  {
-    category: "General",
-    es: "La tortilla de patatas siempre debe llevar cebolla; sin ella es solo un huevo cuajado triste.",
-    en: "Potato omelette must always have onion; without it, it's just a sad egg omelette."
-  },
-  {
-    category: "General",
-    es: "La pizza recalentada del día anterior para desayunar supera a cualquier tostada de aguacate.",
-    en: "Cold leftover pizza for breakfast is superior to any trendy avocado toast."
+function toggleModalAuthMode() {
+  const nextMode = currentModalAuthMode === 'login' ? 'signup' : 'login';
+  switchModalAuth(nextMode);
+}
+
+function openAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  if (modal) modal.classList.add('open');
+  switchModalAuth('login');
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById('auth-modal');
+  if (modal) modal.classList.remove('open');
+}
+
+function closeAuthModalOnOverlay(event) {
+  if (event.target.id === 'auth-modal') {
+    closeAuthModal();
   }
-];
+}
 
-async function syncWorldTrends(event) {
-  if (event) event.preventDefault();
-  if (!supabaseClient) return;
-  if (!requireAuth()) return;
-
-  const btn = document.getElementById('btn-sync-trends');
-  if (!btn) return;
-  const originalHTML = btn.innerHTML;
-  btn.disabled = true;
-  btn.style.opacity = '0.7';
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${currentLang === 'es' ? 'Sincronizando...' : 'Syncing...'}`;
-
+async function handleModalAuthSubmit(event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('modal-auth-email').value.trim();
+  const password = document.getElementById('modal-auth-password').value;
+  
   try {
-    // 1. Fetch existing statements from database to avoid duplicates
-    const { data: existingFacts, error: fetchError } = await supabaseClient
-      .from('facts')
-      .select('statement');
-    if (fetchError) throw fetchError;
-
-    const existingTexts = (existingFacts || []).map(f => f.statement.toLowerCase().trim());
-
-    // 2. Filter global trends that do not exist yet in database
-    const newTrends = GLOBAL_TRENDS.filter(trend => {
-      const textEs = trend.es.toLowerCase().trim();
-      const textEn = trend.en.toLowerCase().trim();
-      return !existingTexts.includes(textEs) && !existingTexts.includes(textEn);
-    });
-
-    if (newTrends.length === 0) {
-      showToast(currentLang === 'es' ? "¡Las tendencias ya están actualizadas en tu feed!" : "Trends are already up to date in your feed!");
-      return;
-    }
-
-    // Shuffle and pick up to 3
-    const shuffled = newTrends.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 3);
-
-    // 3. Insert them one by one
-    let insertedCount = 0;
-    for (const trend of selected) {
-      const statement = currentLang === 'es' ? trend.es : trend.en;
-      const { error: insertError } = await supabaseClient.from('facts').insert({
-        user_id: window.currentUser.id,
-        statement: statement,
-        category: trend.category,
-        agree_count: Math.floor(Math.random() * 45) + 15,    // add some dynamic simulated starting activity
-        disagree_count: Math.floor(Math.random() * 30) + 5,
-        comment_count: 0
-      });
-      if (!insertError) {
-        insertedCount++;
+    if (currentModalAuthMode === 'signup') {
+      const displayName = document.getElementById('modal-reg-name').value.trim();
+      const username = document.getElementById('modal-reg-username').value.trim().toLowerCase().replace(/[^a-zA-Z0-9_]/g, '');
+      
+      if (!displayName || !username) {
+        throw new Error(currentLang === 'es' ? "Por favor completa todos los campos" : "Please fill in all fields");
       }
-    }
-
-    if (insertedCount > 0) {
-      showToast(currentLang === 'es' ? `¡Se crearon ${insertedCount} factos de tendencias mundiales!` : `Created ${insertedCount} world trend facts!`);
-      // Reward points for curation
-      await adjustTrustScore(window.currentUser.id, 1.5 * insertedCount);
-      await refreshCurrentUserState();
-      updateUserProfileUI();
-      renderFeed();
+      
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username: username,
+            display_name: displayName,
+            username_setup_completed: true
+          }
+        }
+      });
+      if (error) throw error;
+      
+      showToast(currentLang === 'es' ? "¡Registro completado! Por favor, inicia sesión." : "Sign up successful! Please log in.");
+      switchModalAuth('login');
     } else {
-      showToast(currentLang === 'es' ? "Las tendencias ya están actualizadas." : "Trends are already up to date.");
+      // Sign In
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+      if (error) throw error;
+      
+      // Fetch public profile record
+      const { data: profile, error: pe } = await supabaseClient.from('profiles').select('*').eq('id', data.user.id).single();
+      if (pe || !profile) {
+        throw new Error(currentLang === 'es' ? "Perfil público no encontrado en base de datos." : "Public profile not found in DB.");
+      }
+      
+      window.currentUser = profile;
+      sessionStorage.setItem('factos_session', JSON.stringify(profile));
+      showToast("toast_welcome", false, profile.display_name);
+      
+      closeAuthModal();
+      switchToAppView();
     }
   } catch (err) {
     showToast(err.message, true);
-  } finally {
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    btn.innerHTML = originalHTML;
   }
 }
 
+function hideGuestFeedBanner() {
+  const banner = document.getElementById('guest-feed-banner');
+  if (banner) banner.classList.add('hidden');
+  sessionStorage.setItem('factos_guest_banner_dismissed', 'true');
+}
+
+// ==========================================
+// OAUTH USERNAME SETUP MODAL HANDLERS
+// ==========================================
+
+function openUsernameSetupModal() {
+  const modal = document.getElementById('username-setup-modal');
+  if (modal) modal.classList.add('open');
+  applyTranslations();
+}
+
+function closeUsernameSetupModal() {
+  const modal = document.getElementById('username-setup-modal');
+  if (modal) modal.classList.remove('open');
+}
+
+async function handleUsernameSetupSubmit(event) {
+  event.preventDefault();
+  if (!supabaseClient || !window.currentUser) return;
+  
+  const submitBtn = event.target.querySelector('button[type="submit"]');
+  if (submitBtn && submitBtn.disabled) return;
+  
+  const rawUsername = document.getElementById('setup-username').value.trim();
+  const username = rawUsername.toLowerCase().replace(/[^a-zA-Z0-9_]/g, '');
+  
+  if (username.length < 3) {
+    showToast(currentLang === 'es' ? "El nombre de usuario es muy corto." : "Username is too short.", true);
+    return;
+  }
+  
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.5';
+  }
+  
+  try {
+    // 1. Verify username is unique
+    const { data: existing, error: fe } = await supabaseClient
+      .from('profiles')
+      .select('id')
+      .eq('username', username)
+      .maybeSingle();
+      
+    if (fe) throw fe;
+    if (existing) {
+      showToast("toast_username_taken", true);
+      return;
+    }
+    
+    // 2. Update profiles table
+    const { error: pe } = await supabaseClient
+      .from('profiles')
+      .update({ username: username })
+      .eq('id', window.currentUser.id);
+      
+    if (pe) throw pe;
+    
+    // 3. Update auth user metadata
+    const { error: ae } = await supabaseClient.auth.updateUser({
+      data: { username_setup_completed: true }
+    });
+    if (ae) throw ae;
+    
+    closeUsernameSetupModal();
+    
+    // 4. Refresh local user state and UI
+    await refreshCurrentUserState();
+    updateUserProfileUI();
+    renderFeed();
+    
+    showToast(currentLang === 'es' ? "¡Nombre de usuario configurado con éxito!" : "Username configured successfully!");
+  } catch (err) {
+    showToast(err.message, true);
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+    }
+  }
+}
