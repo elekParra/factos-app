@@ -7,7 +7,7 @@
   <!-- Supabase JS Library SDK CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Google Fonts & Icon sets -->
-  <link rel="stylesheet" href="style.css?v=3.9">
+  <link rel="stylesheet" href="style.css?v=3.10">
   <!-- FontAwesome Icons for modern aesthetic -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -426,6 +426,14 @@
     </button>
   </nav>
 
+  <!-- GUEST BOTTOM BANNER (MOBILE ONLY, SHOWN ON SCROLL DOWN) -->
+  <div id="guest-bottom-banner" class="guest-bottom-banner">
+    <div class="guest-bottom-banner-content">
+      <span class="guest-bottom-banner-text" data-i18n="guest_bottom_banner_text">¿Quieres participar? Inicia sesión o regístrate para votar y comentar.</span>
+      <button type="button" class="btn-primary" style="width: auto; padding: 6px 14px; font-size: 0.8rem; background: white; color: var(--primary); font-weight: 700; box-shadow: none;" onclick="openAuthModal()" data-i18n="btn_login">Iniciar Sesión</button>
+    </div>
+  </div>
+
   <!-- OTHER USER PROFILE MODAL -->
   <div id="user-profile-modal" class="modal-overlay" onclick="closeUserProfileModalOnOverlay(event)">
     <div class="glass-panel modal-card" style="max-width: 650px;">
@@ -557,6 +565,6 @@
   </div>
 
   <!-- JavaScript application file with cache buster -->
-  <script src="app.js?v=3.9"></script>
+  <script src="app.js?v=3.10"></script>
 </body>
 </html>

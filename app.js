@@ -90,7 +90,8 @@ const translations = {
     btn_save_continue: "Guardar y Continuar",
     toast_username_taken: "Este nombre de usuario ya está en uso. Elige otro.",
     toast_username_invalid: "El nombre de usuario contiene caracteres no válidos.",
-    change_theme_title: "Cambiar Tema"
+    change_theme_title: "Cambiar Tema",
+    guest_bottom_banner_text: "¿Quieres participar? Inicia sesión o regístrate para votar y comentar."
   },
   en: {
     brand_subtitle: "Verify the beliefs that shape the world",
@@ -182,7 +183,8 @@ const translations = {
     btn_save_continue: "Save & Continue",
     toast_username_taken: "This username is already taken. Please choose another.",
     toast_username_invalid: "Username contains invalid characters.",
-    change_theme_title: "Change Theme"
+    change_theme_title: "Change Theme",
+    guest_bottom_banner_text: "Want to participate? Sign in or sign up to vote and comment."
   }
 };
 
@@ -615,6 +617,12 @@ async function logout() {
 
 // Dynamic Profile View Sync
 function updateUserProfileUI() {
+  // Reset scroll-reactive bottom nav layouts
+  const bottomNav = document.querySelector('.bottom-nav');
+  const guestBottomBanner = document.getElementById('guest-bottom-banner');
+  if (bottomNav) bottomNav.classList.remove('slide-down');
+  if (guestBottomBanner) guestBottomBanner.classList.remove('slide-up');
+
   const profileCard = document.getElementById('sidebar-profile-card');
   const guestCard = document.getElementById('sidebar-guest-card');
   const userActions = document.getElementById('header-user-actions');
@@ -2453,3 +2461,49 @@ async function handleUsernameSetupSubmit(event) {
     }
   }
 }
+
+// Scroll-reactive bottom navigation bar handler for mobile guests
+let lastScrollY = window.scrollY;
+const scrollThreshold = 10; // Avoid jitter
+
+window.addEventListener('scroll', () => {
+  // If user is logged in or viewport is desktop, do not hide bottom nav
+  if (window.currentUser || window.innerWidth > 900) {
+    const bottomNav = document.querySelector('.bottom-nav');
+    const guestBottomBanner = document.getElementById('guest-bottom-banner');
+    if (bottomNav) bottomNav.classList.remove('slide-down');
+    if (guestBottomBanner) guestBottomBanner.classList.remove('slide-up');
+    return;
+  }
+
+  const currentScrollY = window.scrollY;
+  const diff = currentScrollY - lastScrollY;
+
+  if (Math.abs(diff) < scrollThreshold) {
+    return;
+  }
+
+  const bottomNav = document.querySelector('.bottom-nav');
+  const guestBottomBanner = document.getElementById('guest-bottom-banner');
+
+  if (diff > 0 && currentScrollY > 50) {
+    // Scrolling down: hide menu bar, show guest banner
+    if (bottomNav) bottomNav.classList.add('slide-down');
+    if (guestBottomBanner) guestBottomBanner.classList.add('slide-up');
+  } else {
+    // Scrolling up: show menu bar, hide guest banner
+    if (bottomNav) bottomNav.classList.remove('slide-down');
+    if (guestBottomBanner) guestBottomBanner.classList.remove('slide-up');
+  }
+
+  lastScrollY = currentScrollY;
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 900 || window.currentUser) {
+    const bottomNav = document.querySelector('.bottom-nav');
+    const guestBottomBanner = document.getElementById('guest-bottom-banner');
+    if (bottomNav) bottomNav.classList.remove('slide-down');
+    if (guestBottomBanner) guestBottomBanner.classList.remove('slide-up');
+  }
+});
