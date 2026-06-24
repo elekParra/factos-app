@@ -202,6 +202,17 @@ let selectedProfileId = null;
 let feedRenderGeneration = 0;
 let profileRenderGeneration = 0;
 
+// Feed Cache to prevent excessive Egress and duplicate DB queries
+let cachedFactsData = null;
+let cachedVotesData = null;
+let cachedCommentsData = null;
+
+function clearFeedCache() {
+  cachedFactsData = null;
+  cachedVotesData = null;
+  cachedCommentsData = null;
+}
+
 // Supabase configuration parameters (puedes dejarlos en blanco aquí; la App te los pedirá en pantalla si faltan)
 let SUPABASE_URL = "https://sjavtotrtmuwltlhship.supabase.co";
 let SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqYXZ0b3RydG11d2x0bGhzaGlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NzM2NTYsImV4cCI6MjA5NjQ0OTY1Nn0.wbIlQ9pbjDdZMB4ho4FDwRLzKbe0GMYsD_3IQExsIwk";
@@ -579,6 +590,7 @@ async function handleAuthSubmit(event) {
       window.currentUser = profile;
       sessionStorage.setItem('factos_session', JSON.stringify(profile));
       showToast("toast_welcome", false, profile.display_name);
+      clearFeedCache();
       switchToAppView();
     }
   } catch (err) {
@@ -611,6 +623,7 @@ async function logout() {
   } catch(e) {}
   sessionStorage.removeItem('factos_session');
   window.currentUser = null;
+  clearFeedCache();
   switchToAuthView();
   showToast("toast_logout");
 }
@@ -791,58 +804,82 @@ function formatRelativeTime(dateString) {
 }
 
 // Fetch and render facts dynamically from Supabase
-async function renderFeed() {
+async function renderFeed(forceRefresh = false) {
   feedRenderGeneration++;
   const localGeneration = feedRenderGeneration;
 
   const feedContainer = document.getElementById('facts-feed');
-  feedContainer.innerHTML = `
-    <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-      <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;"></i>
-      <p>${currentLang === 'es' ? 'Descargando declaraciones...' : 'Fetching statements...'}</p>
-    </div>
-  `;
-  
+
   if (!supabaseClient) return;
-  
+
   try {
-    // 1. Fetch recent facts with profiles join, ordered and limited to 50 for max speed
-    const { data: facts, error } = await supabaseClient
-      .from('facts')
-      .select('*, profiles!user_id(*)')
-      .order('created_at', { ascending: false })
-      .limit(50);
-    
-    if (localGeneration !== feedRenderGeneration) return;
-    if (error) throw error;
-    
-    // 2. Fetch current user's votes
-    let userVotes = [];
-    if (window.currentUser) {
-      const { data } = await supabaseClient
-        .from('votes')
-        .select('*')
-        .eq('user_id', window.currentUser.id);
-      
+    // If the cache is empty or we explicitly request a refresh, fetch from Supabase
+    if (forceRefresh || !cachedFactsData) {
+      feedContainer.innerHTML = `
+        <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;"></i>
+          <p>${currentLang === 'es' ? 'Descargando declaraciones...' : 'Fetching statements...'}</p>
+        </div>
+      `;
+
+      // 1. Fetch recent facts with profiles join, ordered and limited to 50 for max speed
+      const { data: facts, error } = await supabaseClient
+        .from('facts')
+        .select('*, profiles!user_id(*)')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
       if (localGeneration !== feedRenderGeneration) return;
-      userVotes = data || [];
+      if (error) throw error;
+      cachedFactsData = facts || [];
+
+      // 2. Fetch current user's votes
+      let userVotes = [];
+      if (window.currentUser) {
+        const { data } = await supabaseClient
+          .from('votes')
+          .select('*')
+          .eq('user_id', window.currentUser.id);
+
+        if (localGeneration !== feedRenderGeneration) return;
+        userVotes = data || [];
+      }
+      cachedVotesData = userVotes;
+
+      // 3. Batch fetch all comments for cached facts in a single request
+      const factIds = cachedFactsData.map(f => f.id);
+      let commentsData = [];
+      if (factIds.length > 0) {
+        const { data: comments, error: ce } = await supabaseClient
+          .from('comments')
+          .select('*, profiles!user_id(*)')
+          .in('fact_id', factIds)
+          .order('created_at', { ascending: true });
+
+        if (localGeneration !== feedRenderGeneration) return;
+        if (!ce) {
+          commentsData = comments || [];
+        }
+      }
+      cachedCommentsData = commentsData;
     }
-    
+
     const dict = translations[currentLang];
-    
-    // Filter by search query
-    let filteredFacts = facts || [];
+
+    // Filter cached facts in-memory by search query
+    let filteredFacts = [...cachedFactsData];
     if (searchQuery) {
-      filteredFacts = filteredFacts.filter(fact => 
+      filteredFacts = filteredFacts.filter(fact =>
         fact.statement.toLowerCase().includes(searchQuery)
       );
     }
-    
-    // Filter by shared fact ID
+
+    // Filter cached facts in-memory by shared fact ID
     if (currentSharedFactId) {
       filteredFacts = filteredFacts.filter(fact => fact.id === currentSharedFactId);
     }
-    
+
+    // Sort in-memory
     if (currentFeedTab === 'recent') {
       filteredFacts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } else {
@@ -857,25 +894,9 @@ async function renderFeed() {
       });
     }
 
-    // 3. Batch fetch all comments for these facts in a single request to resolve N+1 comments query problems
-    const factIds = filteredFacts.map(f => f.id);
-    let commentsData = [];
-    if (factIds.length > 0) {
-      const { data: comments, error: ce } = await supabaseClient
-        .from('comments')
-        .select('*, profiles!user_id(*)')
-        .in('fact_id', factIds)
-        .order('created_at', { ascending: true });
-        
-      if (localGeneration !== feedRenderGeneration) return;
-      if (!ce) {
-        commentsData = comments || [];
-      }
-    }
-    
     // Group preloaded comments by fact_id
     const commentsByFact = {};
-    commentsData.forEach(c => {
+    cachedCommentsData.forEach(c => {
       if (!commentsByFact[c.fact_id]) {
         commentsByFact[c.fact_id] = [];
       }
@@ -883,7 +904,7 @@ async function renderFeed() {
     });
 
     feedContainer.innerHTML = '';
-    
+
     if (filteredFacts.length === 0) {
       feedContainer.innerHTML = `
         <div class="glass-panel" style="padding: 40px; text-align: center; color: var(--text-muted);">
@@ -896,15 +917,15 @@ async function renderFeed() {
 
     // Resolve card rendering HTML promises in parallel with preloaded comments
     const cardPromises = filteredFacts.map(async (fact) => {
-      const userVote = userVotes ? userVotes.find(v => v.fact_id === fact.id) : null;
+      const userVote = cachedVotesData ? cachedVotesData.find(v => v.fact_id === fact.id) : null;
       const preloadedComments = commentsByFact[fact.id] || [];
       const cardHTML = await buildFactCardHTML(fact, userVote, dict, preloadedComments);
       return { fact, cardHTML };
     });
-    
+
     const renderedCards = await Promise.all(cardPromises);
     if (localGeneration !== feedRenderGeneration) return;
-    
+
     feedContainer.innerHTML = '';
     for (const { fact, cardHTML } of renderedCards) {
       const card = document.createElement('article');
@@ -1109,6 +1130,7 @@ async function handlePostFact(event) {
     showToast("toast_fact_published");
     
     // Refresh UI
+    clearFeedCache();
     await refreshCurrentUserState();
     updateUserProfileUI();
     renderFeed();
@@ -1293,6 +1315,27 @@ async function handleVote(event, factId, type) {
     
     // Sync UI with final db stats
     updateDOM(dbAgree, dbDisagree, newVoteType);
+
+    // Update locally cached values to maintain correct state during searches/toggles
+    if (cachedFactsData) {
+      const cachedFact = cachedFactsData.find(f => f.id === factId);
+      if (cachedFact) {
+        cachedFact.agree_count = dbAgree;
+        cachedFact.disagree_count = dbDisagree;
+      }
+    }
+    if (cachedVotesData) {
+      const voteIdx = cachedVotesData.findIndex(v => v.fact_id === factId);
+      if (newVoteType === null) {
+        if (voteIdx !== -1) cachedVotesData.splice(voteIdx, 1);
+      } else {
+        if (voteIdx !== -1) {
+          cachedVotesData[voteIdx].vote = newVoteType;
+        } else {
+          cachedVotesData.push({ user_id: userId, fact_id: factId, vote: newVoteType });
+        }
+      }
+    }
     
     // Refresh user trust UI sidebar
     await refreshCurrentUserState();
@@ -1368,6 +1411,7 @@ async function submitComment(event, factId) {
       toggleBtn.innerHTML = `<i class="fa-regular fa-comment"></i> ${dict.comments_toggle_label.replace('{count}', newCount)}`;
     }
     
+    clearFeedCache();
     await refreshCurrentUserState();
     updateUserProfileUI();
     showToast("toast_comment_posted");
@@ -1395,6 +1439,7 @@ async function handleDeleteFact(event, factId) {
     if (error) throw error;
     
     showToast(currentLang === 'es' ? "¡Facto eliminado con éxito!" : "Fact deleted successfully!");
+    clearFeedCache();
     if (currentFeedTab === 'profile') {
       renderMyProfileView();
     } else {
@@ -1434,6 +1479,7 @@ async function handleDeleteComment(event, commentId, factId) {
       const dict = translations[currentLang];
       toggleBtn.innerHTML = `<i class="fa-regular fa-comment"></i> ${dict.comments_toggle_label.replace('{count}', newCount)}`;
     }
+    clearFeedCache();
   } catch (err) {
     showToast(err.message, true);
   }
@@ -1502,11 +1548,50 @@ function handleAvatarFileChange(event) {
   const file = event.target.files[0];
   if (!file) return;
   
+  if (!file.type.startsWith('image/')) {
+    showToast(currentLang === 'es' ? "Por favor, selecciona un archivo de imagen válido." : "Please select a valid image file.", true);
+    return;
+  }
+  
   const reader = new FileReader();
   reader.onload = function(e) {
-    tempAvatarUrl = e.target.result;
-    const previewContainer = document.getElementById('avatar-edit-preview-container');
-    previewContainer.innerHTML = `<img src="${escapeHTML(tempAvatarUrl)}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); display: block;" />`;
+    const img = new Image();
+    img.onload = function() {
+      // Create off-screen canvas for image compression
+      const canvas = document.createElement('canvas');
+      const MAX_WIDTH = 128;
+      const MAX_HEIGHT = 128;
+      let width = img.width;
+      let height = img.height;
+      
+      // Calculate scaled dimensions preserving aspect ratio
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Compress to high-density lightweight JPEG (reduces data sizes from megabytes to ~5KB)
+      tempAvatarUrl = canvas.toDataURL('image/jpeg', 0.7);
+      
+      const previewContainer = document.getElementById('avatar-edit-preview-container');
+      previewContainer.innerHTML = `<img src="${escapeHTML(tempAvatarUrl)}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); display: block;" />`;
+    };
+    img.onerror = function() {
+      showToast(currentLang === 'es' ? "Error al cargar la imagen." : "Error loading image.", true);
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
@@ -1535,6 +1620,7 @@ async function handleSaveProfile(event) {
     closeEditProfileModal();
     showToast("toast_profile_updated");
     
+    clearFeedCache();
     await refreshCurrentUserState();
     updateUserProfileUI();
     if (currentFeedTab === 'profile') {
@@ -2368,6 +2454,7 @@ async function handleModalAuthSubmit(event) {
       showToast("toast_welcome", false, profile.display_name);
       
       closeAuthModal();
+      clearFeedCache();
       switchToAppView();
     }
   } catch (err) {
@@ -2449,6 +2536,7 @@ async function handleUsernameSetupSubmit(event) {
     // 4. Refresh local user state and UI
     await refreshCurrentUserState();
     updateUserProfileUI();
+    clearFeedCache();
     renderFeed();
     
     showToast(currentLang === 'es' ? "¡Nombre de usuario configurado con éxito!" : "Username configured successfully!");
